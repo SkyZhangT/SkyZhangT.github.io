@@ -4,7 +4,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: sans-serif, "Open Sans", sans-serif;
+    font-family: "Open Sans", sans-serif;
     list-style: none;
     text-decoration: none;
 }
@@ -18,8 +18,9 @@
 }
 
 .sidebar h1{
-    font-size: 22px;
+    font-size: 30px;
     text-align: left;
+    margin-left: 10%;
     line-height: 70px;
     user-select: none;
 }
