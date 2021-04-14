@@ -5,6 +5,7 @@ import {
   IconButton,
   Typography,
   makeStyles,
+  Box,
 } from "@material-ui/core";
 import DateRangeIcon from "@material-ui/icons/DateRange";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
@@ -17,13 +18,20 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   },
   button: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(2),
     color: "inherit",
     size: "large",
   },
+  loginButton: {
+    color: "inherit",
+    size: "large",
+    marginLeft: "auto",
+  },
+  About: {
+    marginRight: theme.spacing(2),
+  },
   Typography: {
     margin: theme.spacing(2),
-    size: "2rem",
   },
 }));
 
@@ -67,10 +75,16 @@ const Header = (props) => {
               fontWeight: "bold",
               color: "red",
             }}
+            className={classes.About}
           >
-            <Typography className={classes.Typography}>About</Typography>
+            <Typography>About</Typography>
           </NavLink>
-          <IconButton aria-label="login" edge="end" className={classes.button}>
+
+          <IconButton
+            aria-label="login"
+            edge="end"
+            className={classes.loginButton}
+          >
             <AccountCircleIcon />
           </IconButton>
         </Toolbar>
