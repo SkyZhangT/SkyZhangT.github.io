@@ -6,87 +6,86 @@ import {
   Typography,
   makeStyles,
   Box,
+  Grid,
+  Paper,
+  Button,
+  BottomNavigation,
+  BottomNavigationAction,
 } from "@material-ui/core";
 import DateRangeIcon from "@material-ui/icons/DateRange";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { Route } from "react-router";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import DateDrawer from "./DateDrawer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
   },
+  link: {
+    margin: theme.spacing(1),
+    background: "white",
+  },
   button: {
-    margin: theme.spacing(2),
+    margin: theme.spacing(1),
     color: "inherit",
-    size: "large",
-  },
-  loginButton: {
-    color: "inherit",
-    size: "large",
-    marginLeft: "auto",
-  },
-  About: {
-    marginRight: theme.spacing(2),
-  },
-  Typography: {
-    margin: theme.spacing(2),
   },
 }));
 
 const Header = (props) => {
   const classes = useStyles();
   const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [value, setValue] = React.useState(0);
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
   };
 
+  console.log(window.location.pathname);
+
   return (
     <div>
-      <AppBar>
+      <AppBar className={classes.root}>
         <Toolbar>
-          <Route exact path="/">
-            <IconButton
-              aria-label="dates"
-              edge="end"
-              className={classes.button}
-              onClick={handleDrawerToggle}
-            >
-              <DateRangeIcon />
-            </IconButton>
-          </Route>
-          <NavLink
-            to="/"
-            style={{ color: "yellow" }}
-            activeStyle={{
-              fontWeight: "bold",
-              color: "red",
-            }}
-          >
-            <Typography className={classes.Typography}>Gallery</Typography>
-          </NavLink>
+          <Grid container spacing={2}>
+            <Grid item xs={2} md={1}>
+              <Route exact path="/">
+                <IconButton
+                  aria-label="dates"
+                  edge="end"
+                  className={classes.button}
+                  onClick={handleDrawerToggle}
+                >
+                  <DateRangeIcon />
+                </IconButton>
+              </Route>
+            </Grid>
 
-          <NavLink
-            to="/about"
-            style={{ color: "yellow" }}
-            activeStyle={{
-              fontWeight: "bold",
-              color: "red",
-            }}
-            className={classes.About}
-          >
-            <Typography>About</Typography>
-          </NavLink>
+            <Grid item xs={3} md={2} lg={1}>
+              <Link to="/" style={{ textDecoration: "none" }}>
+                <Button className={classes.link}>Gallery</Button>
+              </Link>
+            </Grid>
 
-          <IconButton
-            aria-label="login"
-            edge="end"
-            className={classes.loginButton}
-          >
-            <AccountCircleIcon />
-          </IconButton>
+            <Grid item xs={3} md={2} lg={1}>
+              <Link to="/about" style={{ textDecoration: "none" }}>
+                <Button className={classes.link}>About</Button>
+              </Link>
+            </Grid>
+
+            {/*middle spacing*/}
+            <Grid item xs={2} md={6} lg={8} />
+
+            <Grid item xs={2} md={1}>
+              <IconButton
+                aria-label="login"
+                edge="end"
+                className={classes.button}
+              >
+                <AccountCircleIcon size="medium" />
+              </IconButton>
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
       <Toolbar />

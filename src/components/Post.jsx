@@ -16,13 +16,12 @@ import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import MessageIcon from "@material-ui/icons/Message";
+import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: "60%",
-    centere: true,
-    alignItems: "center",
-    justifyContent: "center",
+    margin: "2",
+    borderSpacing: "20px",
   },
   media: {
     height: 0,
@@ -45,44 +44,50 @@ const Post = (props) => {
   };
 
   return (
-    <Card className={classes.root}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            {props.data.username}
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={props.data.title}
-        subheader={props.data.date}
-      />
-      <CardMedia
-        className={classes.media}
-        image={props.data.image}
-        title={props.data.imagetitle}
-      />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {props.data.text}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        <IconButton className={classes.comment} aria-label="comment">
-          <MessageIcon />
-        </IconButton>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit></Collapse>
-    </Card>
+    <Grid container spacing={2}>
+      <Grid item xs={0} lg={3}></Grid>
+      <Grid item xs={12} lg={6}>
+        <Card className={classes.root} raised={false}>
+          <CardHeader
+            avatar={
+              <Avatar aria-label="recipe" className={classes.avatar}>
+                {props.data.username}
+              </Avatar>
+            }
+            action={
+              <IconButton aria-label="settings">
+                <MoreVertIcon />
+              </IconButton>
+            }
+            title={props.data.title}
+            subheader={props.data.date}
+          />
+          <CardMedia
+            className={classes.media}
+            image={props.data.image}
+            title={props.data.imagetitle}
+          />
+          <CardContent>
+            <Typography variant="body2" color="textSecondary" component="p">
+              {props.data.text}
+            </Typography>
+          </CardContent>
+          <CardActions disableSpacing>
+            <IconButton aria-label="favorites">
+              <FavoriteIcon />
+            </IconButton>
+            <IconButton aria-label="share">
+              <ShareIcon />
+            </IconButton>
+            <IconButton className={classes.comment} aria-label="comment">
+              <MessageIcon />
+            </IconButton>
+          </CardActions>
+          <Collapse in={expanded} timeout="auto" unmountOnExit></Collapse>
+        </Card>
+      </Grid>
+      <Grid item xs={0} lg={2}></Grid>
+    </Grid>
   );
 };
 

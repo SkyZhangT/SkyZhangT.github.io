@@ -5,7 +5,7 @@ import Post from "../components/Post";
 import pic1 from "../res/pic1.jpg";
 
 const fakedata = {
-  username: "Sky Zhang",
+  username: "SZ",
   title: "OMS",
   date: "2020 Jan 1",
   image: pic1,
