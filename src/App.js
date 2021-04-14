@@ -1,35 +1,24 @@
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import ResponsiveDrawer from "./components/drawer";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-
-const theme = createMuiTheme({
-	palette: {
-		primary: {
-			main: "#2e1667",
-		},
-	},
-	typography: {
-		fontFamily: ["Roboto"],
-		h4: {
-			fontWeight: 600,
-			fontSize: 28,
-			lineHeight: "2rem",
-		},
-		h6: {
-			fontWeight: 100,
-			lineHeight: "2rem",
-		},
-	},
-});
-
+import Gallery from "./pages/Gallery";
+import About from "./pages/About";
+import Header from "./components/Header";
 function App() {
-	return (
-		<div className="App">
-			<ThemeProvider theme={theme}>
-				<ResponsiveDrawer />
-			</ThemeProvider>
-		</div>
-	);
+  return (
+    <Router>
+      <div className="App">
+        <Header />
+        <Switch>
+          <Route exact path="/" exact component={Gallery} />
+          <Route exact path="/about" exact component={About} />
+          {/*
+				<Route path="/" exact component={Gallery} />
+			    */}
+        </Switch>
+      </div>
+    </Router>
+  );
 }
 
 export default App;
