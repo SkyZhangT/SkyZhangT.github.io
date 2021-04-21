@@ -16,16 +16,17 @@ import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import MessageIcon from "@material-ui/icons/Message";
-import { Grid } from "@material-ui/core";
+import { Button, Fab, Grid } from "@material-ui/core";
+import NavigateNextIcon from "@material-ui/icons/NavigateNextRounded";
+import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    margin: "2",
+  card: {
     borderSpacing: "20px",
   },
   media: {
-    height: 0,
-    paddingTop: "56.25%", // 16:9
+    paddingTop: "60.25%", // 16:9
+    position: "relative",
   },
   comment: {
     marginLeft: "auto",
@@ -33,21 +34,52 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: red[500],
   },
+  icon_row: {
+    position: "absolute",
+    top: "0",
+    left: "0",
+    minHeight: "100%",
+  },
+  row_cell: {
+    position: "relative",
+  },
+  navbutton: {
+    position: "absolute",
+    background: "transparent",
+    left: "0",
+    right: "0",
+    color: "black",
+    minHeight: "100%",
+    minWidth: "100%",
+  },
 }));
 
 const Post = (props) => {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
+  const [p_index, setIndex] = React.useState(0);
+  const max = props.data.image.length;
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
+  const next_photo = () => {
+    if (p_index + 1 == max) {
+      setIndex(0);
+    } else {
+      setIndex(p_index + 1);
+    }
+  };
+
+  const prev_photo = () => {
+    if (p_index == 0) {
+      setIndex(max - 1);
+    } else {
+      setIndex(p_index - 1);
+    }
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={1}>
       <Grid item xs={0} lg={3}></Grid>
       <Grid item xs={12} lg={6}>
-        <Card className={classes.root} raised={false}>
+        <Card className={classes.card} raised={false}>
           <CardHeader
             avatar={
               <Avatar aria-label="recipe" className={classes.avatar}>
@@ -64,9 +96,25 @@ const Post = (props) => {
           />
           <CardMedia
             className={classes.media}
-            image={props.data.image}
+            image={props.data.image[p_index]}
             title={props.data.imagetitle}
-          />
+          >
+            <Grid container spacing={1} className={classes.icon_row}>
+              <Grid xs={2} className={classes.row_cell}>
+                <Button className={classes.navbutton} onClick={prev_photo}>
+                  <NavigateBeforeIcon fontSize="large" />
+                </Button>
+              </Grid>
+
+              <Grid xs={8}></Grid>
+
+              <Grid xs={2} className={classes.row_cell}>
+                <Button className={classes.navbutton} onClick={next_photo}>
+                  <NavigateNextIcon fontSize="large" />
+                </Button>
+              </Grid>
+            </Grid>
+          </CardMedia>
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
               {props.data.text}
@@ -83,7 +131,6 @@ const Post = (props) => {
               <MessageIcon />
             </IconButton>
           </CardActions>
-          <Collapse in={expanded} timeout="auto" unmountOnExit></Collapse>
         </Card>
       </Grid>
       <Grid item xs={0} lg={2}></Grid>

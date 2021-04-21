@@ -23,7 +23,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   },
   link: {
-    margin: theme.spacing(1),
+    position: "relative",
+    top: "1em",
     background: "white",
   },
   button: {
