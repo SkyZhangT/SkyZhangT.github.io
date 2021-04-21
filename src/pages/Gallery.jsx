@@ -1,5 +1,5 @@
 import React from "react";
-import { Fab, Icon, IconButton, Typography } from "@material-ui/core";
+import { Fab, Grid, IconButton, Typography } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Post from "../components/Post";
 import pic1 from "../res/pic1.jpg";
@@ -35,8 +35,16 @@ const Gallery = (props) => {
 
   return (
     <div className={classes.root}>
-      <Post data={fakedata} />
-      <Post data={fakedata} />
+      <Grid container spacing={1}>
+        <Grid item lg={3}></Grid>
+
+        <Grid item xs={12} lg={6}>
+          <Post data={fakedata} />
+          <Post data={fakedata} />
+        </Grid>
+
+        <Grid item lg={3}></Grid>
+      </Grid>
 
       <Link to="/newpost" style={{ textDecoration: "none" }}>
         <Fab color="primary" className={classes.fab} aria-label="add">

@@ -21,36 +21,41 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNextRounded";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    paddingTop: theme.spacing(0.5),
+  },
   card: {
-    borderSpacing: "20px",
+    height: "100%",
   },
   media: {
-    paddingTop: "60.25%", // 16:9
+    paddingTop: "80.25%", // 16:9
     position: "relative",
+    minHeight: "100%",
+    minWidth: "100%",
+  },
+  navbeforebutton: {
+    position: "absolute",
+    background: "transparent",
+    color: "black",
+    top: "0",
+    left: "0",
+    minHeight: "100%",
+    minWidth: "10%",
+  },
+  navnextbutton: {
+    position: "absolute",
+    background: "transparent",
+    color: "black",
+    top: "0",
+    right: "0",
+    minHeight: "100%",
+    minWidth: "10%",
   },
   comment: {
     marginLeft: "auto",
   },
   avatar: {
     backgroundColor: red[500],
-  },
-  icon_row: {
-    position: "absolute",
-    top: "0",
-    left: "0",
-    minHeight: "100%",
-  },
-  row_cell: {
-    position: "relative",
-  },
-  navbutton: {
-    position: "absolute",
-    background: "transparent",
-    left: "0",
-    right: "0",
-    color: "black",
-    minHeight: "100%",
-    minWidth: "100%",
   },
 }));
 
@@ -76,65 +81,53 @@ const Post = (props) => {
   };
 
   return (
-    <Grid container spacing={1}>
-      <Grid item xs={0} lg={3}></Grid>
-      <Grid item xs={12} lg={6}>
-        <Card className={classes.card} raised={false}>
-          <CardHeader
-            avatar={
-              <Avatar aria-label="recipe" className={classes.avatar}>
-                {props.data.username}
-              </Avatar>
-            }
-            action={
-              <IconButton aria-label="settings">
-                <MoreVertIcon />
-              </IconButton>
-            }
-            title={props.data.title}
-            subheader={props.data.date}
-          />
-          <CardMedia
-            className={classes.media}
-            image={props.data.image[p_index]}
-            title={props.data.imagetitle}
-          >
-            <Grid container spacing={1} className={classes.icon_row}>
-              <Grid xs={2} className={classes.row_cell}>
-                <Button className={classes.navbutton} onClick={prev_photo}>
-                  <NavigateBeforeIcon fontSize="large" />
-                </Button>
-              </Grid>
+    <div className={classes.root}>
+      <Card raised={false}>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="recipe" className={classes.avatar}>
+              {props.data.username}
+            </Avatar>
+          }
+          action={
+            <IconButton aria-label="settings">
+              <MoreVertIcon />
+            </IconButton>
+          }
+          title={props.data.title}
+          subheader={props.data.date}
+        />
+        <CardMedia
+          className={classes.media}
+          image={props.data.image[p_index]}
+          title={props.data.imagetitle}
+        >
+          <Button className={classes.navbeforebutton} onClick={prev_photo}>
+            <NavigateBeforeIcon fontSize="large" />
+          </Button>
 
-              <Grid xs={8}></Grid>
-
-              <Grid xs={2} className={classes.row_cell}>
-                <Button className={classes.navbutton} onClick={next_photo}>
-                  <NavigateNextIcon fontSize="large" />
-                </Button>
-              </Grid>
-            </Grid>
-          </CardMedia>
-          <CardContent>
-            <Typography variant="body2" color="textSecondary" component="p">
-              {props.data.text}
-            </Typography>
-          </CardContent>
-          <CardActions disableSpacing>
-            <IconButton aria-label="favorites">
-              <FavoriteIcon />
-            </IconButton>
-            <IconButton aria-label="share">
-              <ShareIcon />
-            </IconButton>
-            <IconButton className={classes.comment} aria-label="comment">
-              <MessageIcon />
-            </IconButton>
-          </CardActions>
-        </Card>
-      </Grid>
-      <Grid item xs={0} lg={2}></Grid>
-    </Grid>
+          <Button className={classes.navnextbutton} onClick={next_photo}>
+            <NavigateNextIcon fontSize="large" />
+          </Button>
+        </CardMedia>
+        <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {props.data.text}
+          </Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+          <IconButton aria-label="favorites">
+            <FavoriteIcon />
+          </IconButton>
+          <IconButton aria-label="share">
+            <ShareIcon />
+          </IconButton>
+          <IconButton className={classes.comment} aria-label="comment">
+            <MessageIcon />
+          </IconButton>
+        </CardActions>
+      </Card>
+    </div>
   );
 };
 
