@@ -3,14 +3,9 @@ import {
   AppBar,
   Toolbar,
   IconButton,
-  Typography,
   makeStyles,
-  Box,
   Grid,
-  Paper,
   Button,
-  BottomNavigation,
-  BottomNavigationAction,
 } from "@material-ui/core";
 import DateRangeIcon from "@material-ui/icons/DateRange";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
@@ -36,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
 const Header = (props) => {
   const classes = useStyles();
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-  const [value, setValue] = React.useState(0);
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);

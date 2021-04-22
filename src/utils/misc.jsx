@@ -1,5 +1,3 @@
-import { ContactsOutlined } from "@material-ui/icons";
-
 const getFormattedDate = () => {
   const newDate = new Date();
   let day = newDate.getUTCDate().toString();

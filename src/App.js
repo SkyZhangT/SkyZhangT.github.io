@@ -1,4 +1,3 @@
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Gallery from "./pages/Gallery";
@@ -11,9 +10,9 @@ function App() {
       <div className="App">
         <Header />
         <Switch>
-          <Route exact path="/" exact component={Gallery} />
-          <Route exact path="/about" exact component={About} />
-          <Route path="/newpost" exact component={NewPost} />
+          <Route exact path="/" component={Gallery} />
+          <Route exact path="/about" component={About} />
+          <Route exact path="/newpost" component={NewPost} />
         </Switch>
       </div>
     </Router>

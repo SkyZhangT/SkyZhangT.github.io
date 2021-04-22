@@ -1,22 +1,19 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
-import Collapse from "@material-ui/core/Collapse";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import MessageIcon from "@material-ui/icons/Message";
-import { Button, Fab, Grid } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import NavigateNextIcon from "@material-ui/icons/NavigateNextRounded";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 
@@ -65,7 +62,7 @@ const Post = (props) => {
   const max = props.data.image.length;
 
   const next_photo = () => {
-    if (p_index + 1 == max) {
+    if (p_index + 1 === max) {
       setIndex(0);
     } else {
       setIndex(p_index + 1);
@@ -73,10 +70,29 @@ const Post = (props) => {
   };
 
   const prev_photo = () => {
-    if (p_index == 0) {
+    if (p_index === 0) {
       setIndex(max - 1);
     } else {
       setIndex(p_index - 1);
+    }
+  };
+
+  const navButton = () => {
+    console.log(props.data.image.length);
+    if (props.data.image.length > 1) {
+      return (
+        <React.Fragment>
+          <Button className={classes.navbeforebutton} onClick={prev_photo}>
+            <NavigateBeforeIcon fontSize="large" />
+          </Button>
+
+          <Button className={classes.navnextbutton} onClick={next_photo}>
+            <NavigateNextIcon fontSize="large" />
+          </Button>
+        </React.Fragment>
+      );
+    } else {
+      return;
     }
   };
 
@@ -102,13 +118,7 @@ const Post = (props) => {
           image={props.data.image[p_index]}
           title={props.data.imagetitle}
         >
-          <Button className={classes.navbeforebutton} onClick={prev_photo}>
-            <NavigateBeforeIcon fontSize="large" />
-          </Button>
-
-          <Button className={classes.navnextbutton} onClick={next_photo}>
-            <NavigateNextIcon fontSize="large" />
-          </Button>
+          {navButton()}
         </CardMedia>
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">

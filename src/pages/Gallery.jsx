@@ -1,6 +1,6 @@
 import React from "react";
-import { Fab, Grid, IconButton, Typography } from "@material-ui/core";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { Fab, Grid } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import Post from "../components/Post";
 import pic1 from "../res/pic1.jpg";
 import pic2 from "../res/pic2.jpg";
@@ -12,7 +12,7 @@ const fakedata = {
   username: "SZ",
   title: "OMS",
   date: "2020 Jan 1",
-  image: [pic2, pic1],
+  image: [pic2],
   text:
     "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.",
 };
