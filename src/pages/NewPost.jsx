@@ -10,10 +10,11 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import getFormattedDate from "../utils/misc";
+import makeRequest from "../utils/network";
 import SimpleDialog from "../components/Dialog";
+import LinearProgressWithLabel from "../components/ProgressBar";
 import PublishIcon from "@material-ui/icons/Publish";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
-import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,6 +66,8 @@ const NewPost = (props) => {
   const [tokenError, setTokenError] = React.useState(true);
   const [imageLoading, setImageLoading] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const [progress, setProgress] = React.useState(0);
+  const [transferState, setTransferState] = React.useState(0);
 
   // title input logic
   const handleTitleChange = (event) => {
@@ -165,30 +168,63 @@ const NewPost = (props) => {
   };
 
   // upload logic
-  const handleUpload = (e) => {
+  const handleUpload = async (e) => {
+    setProgress(0);
+    setTransferState(0);
     if (titleError || bodyError || dateError || uploadFiles.length === 0) {
       handleClickOpen();
       return;
     }
 
-    for (const f of uploadFiles) {
+    const total = uploadFiles.length + 1;
+    var images = [];
+    for (let i = 0; i < uploadFiles.length; i++) {
       let formdata = new FormData();
-      formdata.append("image", f);
+      formdata.append("image", uploadFiles[i]);
 
-      axios({
-        url: "http://localhost:8080/image",
-        method: "post",
-        data: formdata,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      try {
+        var result = await makeRequest(
+          "http://localhost:8080/image",
+          "post",
+          "multipart/form-data",
+          formdata
+        );
+        if (result.status === 200 || result.status === 208) {
+          images.push(result.data);
+          setProgress((100 * (i + 1)) / total);
+        } else {
+          setTransferState(-1);
+          return;
+        }
+      } catch (err) {
+        setTransferState(-1);
+        return;
+      }
+    }
+
+    try {
+      var result = await makeRequest(
+        "http://localhost:8080/post",
+        "post",
+        "application/json",
+        {
+          user: "SkyZhang",
+          title: title,
+          time: date,
+          text: body,
+          images: images,
+        }
+      );
+      if (result.status === 200) {
+        setProgress(100);
+        setTransferState(1);
+      } else {
+        setTransferState(-1);
+        return;
+      }
+    } catch (err) {
+      setTransferState(-1);
+      return;
     }
   };
 
@@ -290,6 +326,15 @@ const NewPost = (props) => {
                 <Typography>Publish</Typography>
               </Button>
             </div>
+
+            <div className={classes.line}>
+              <LinearProgressWithLabel
+                variant="determinate"
+                status={transferState}
+                value={progress}
+              />
+            </div>
+
             <SimpleDialog
               open={open}
               onClose={handleClose}
