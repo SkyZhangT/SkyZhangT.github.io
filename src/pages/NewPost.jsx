@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Typography,
   Grid,
@@ -26,12 +26,16 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(1),
   },
   title: {
-    width: "45%",
+    width: "30%",
     spacing: theme.spacing(1),
   },
+  location: {
+    width: "30%",
+    marginLeft: "2.5%",
+  },
   date: {
-    width: "45%",
-    marginLeft: "5%",
+    width: "30%",
+    marginLeft: "2.5%",
   },
   description: {
     width: "95%",
@@ -54,20 +58,22 @@ const useStyles = makeStyles((theme) => ({
 
 const NewPost = (props) => {
   const classes = useStyles();
-  const [selectedImages, selectNew] = React.useState([]);
-  const [uploadFiles, setUploadFiles] = React.useState([]);
-  const [title, setTitle] = React.useState("");
-  const [body, setBody] = React.useState("");
-  const [date, setDate] = React.useState(Date.now());
-  const [token, setToken] = React.useState("");
-  const [titleError, setTitleError] = React.useState(true);
-  const [bodyError, setBodyError] = React.useState(true);
-  const [dateError, setDateError] = React.useState(false);
-  const [tokenError, setTokenError] = React.useState(true);
-  const [imageLoading, setImageLoading] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
-  const [progress, setProgress] = React.useState(0);
-  const [transferState, setTransferState] = React.useState(0);
+  const [selectedImages, selectNew] = useState([]);
+  const [uploadFiles, setUploadFiles] = useState([]);
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  const [location, setLocation] = useState("");
+  const [date, setDate] = useState(Date.now());
+  const [token, setToken] = useState("");
+  const [titleError, setTitleError] = useState(true);
+  const [bodyError, setBodyError] = useState(true);
+  const [locationError, setLocationError] = useState(true);
+  const [dateError, setDateError] = useState(false);
+  const [tokenError, setTokenError] = useState(true);
+  const [imageLoading, setImageLoading] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [transferState, setTransferState] = useState(2);
 
   // title input logic
   const handleTitleChange = (event) => {
@@ -89,6 +95,15 @@ const NewPost = (props) => {
     }
   };
 
+  const handleLocationChange = (event) => {
+    setLocation(event.target.value);
+    if (event.target.value.length > 0) {
+      setLocationError(false);
+    } else {
+      setLocationError(true);
+    }
+  };
+
   // set token
   const handleTokenChange = (event) => {
     setToken(event.target.value);
@@ -103,11 +118,10 @@ const NewPost = (props) => {
   const handleDateChange = (event) => {
     let dateStr = event.target.value.split("-");
     let newDate = new Date(dateStr[0], dateStr[1] - 1, dateStr[2]);
-    if (newDate.getTime() == NaN || newDate.getTime() > Date.now()) {
+    if (newDate.getTime() == null || newDate.getTime() > Date.now()) {
       setDateError(true);
     } else {
       setDateError(false);
-      console.log(newDate.getTime());
       setDate(newDate.getTime());
     }
   };
@@ -159,22 +173,28 @@ const NewPost = (props) => {
     }
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClickOpenDialog = () => {
+    setOpenDialog(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
   };
 
   // upload logic
   const handleUpload = async (e) => {
-    setProgress(0);
-    setTransferState(0);
-    if (titleError || bodyError || dateError || uploadFiles.length === 0) {
-      handleClickOpen();
+    if (
+      titleError ||
+      bodyError ||
+      dateError ||
+      locationError ||
+      uploadFiles.length === 0
+    ) {
+      handleClickOpenDialog();
       return;
     }
+    setProgress(0);
+    setTransferState(0);
 
     const total = uploadFiles.length + 1;
     var images = [];
@@ -183,9 +203,10 @@ const NewPost = (props) => {
       formdata.append("image", uploadFiles[i]);
 
       try {
-        var result = await makeRequest(
-          "http://localhost:8080/image",
+        let result = await makeRequest(
+          "/image",
           "post",
+          token,
           "multipart/form-data",
           formdata
         );
@@ -203,13 +224,15 @@ const NewPost = (props) => {
     }
 
     try {
-      var result = await makeRequest(
-        "http://localhost:8080/post",
+      let result = await makeRequest(
+        "/post",
         "post",
+        token,
         "application/json",
         {
-          user: "SkyZhang",
+          user: "Sky Zhang",
           title: title,
+          location: location,
           time: date,
           text: body,
           images: images,
@@ -243,6 +266,14 @@ const NewPost = (props) => {
                 error={titleError}
                 className={classes.title}
                 onChange={handleTitleChange}
+              />
+              <TextField
+                id="location"
+                label="Location"
+                type="text"
+                error={titleError}
+                className={classes.location}
+                onChange={handleLocationChange}
               />
               <TextField
                 id="date"
@@ -321,6 +352,7 @@ const NewPost = (props) => {
                 className={classes.publishButton}
                 variant="outlined"
                 onClick={handleUpload}
+                disabled={transferState === 0}
               >
                 <PublishIcon></PublishIcon>
                 <Typography>Publish</Typography>
@@ -336,8 +368,8 @@ const NewPost = (props) => {
             </div>
 
             <SimpleDialog
-              open={open}
-              onClose={handleClose}
+              open={openDialog}
+              onClose={handleCloseDialog}
               Notification="Invalid Post"
             />
           </Paper>

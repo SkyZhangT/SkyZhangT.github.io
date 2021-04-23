@@ -36,8 +36,6 @@ const Header = (props) => {
     setDrawerOpen(!drawerOpen);
   };
 
-  console.log(window.location.pathname);
-
   return (
     <div>
       <AppBar className={classes.root}>

@@ -15,6 +15,8 @@ function LinearProgressWithLabel(props) {
       return `Finished`;
     } else if (props.status === -1) {
       return `Error`;
+    } else {
+      return `Ready`;
     }
   };
   return (

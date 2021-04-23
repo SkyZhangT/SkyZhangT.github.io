@@ -1,34 +1,43 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import Avatar from "@material-ui/core/Avatar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import MessageIcon from "@material-ui/icons/Message";
-import { Button } from "@material-ui/core";
+import {
+  Button,
+  Menu,
+  Card,
+  MenuItem,
+  CardHeader,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Avatar,
+  IconButton,
+  Typography,
+  Radio,
+  CardActionArea,
+  Paper,
+  Box,
+} from "@material-ui/core";
 import NavigateNextIcon from "@material-ui/icons/NavigateNextRounded";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
+import { root_url } from "../config/config";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    paddingTop: theme.spacing(0.5),
-  },
   card: {
     height: "100%",
   },
   media: {
-    paddingTop: "80.25%", // 16:9
+    paddingTop: "77.25%", // 16:9
     position: "relative",
-    minHeight: "100%",
-    minWidth: "100%",
+    height: "100%",
+    objectFit: "fill",
+    justifyContent: "center",
+    alignItems: "center",
   },
   navbeforebutton: {
     position: "absolute",
@@ -48,6 +57,15 @@ const useStyles = makeStyles((theme) => ({
     minHeight: "100%",
     minWidth: "10%",
   },
+  imageClick: {
+    position: "absolute",
+    background: "transparent",
+    top: "30%",
+    right: "30%",
+    minHeight: "40%",
+    minWidth: "40%",
+  },
+  radioGroup: { justifyContent: "center" },
   comment: {
     marginLeft: "auto",
   },
@@ -59,7 +77,14 @@ const useStyles = makeStyles((theme) => ({
 const Post = (props) => {
   const classes = useStyles();
   const [p_index, setIndex] = React.useState(0);
-  const max = props.data.image.length;
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  var date = new Date(props.data.time);
+  const max = props.data.images.length;
+  var name = "";
+
+  props.data.user.split(" ").forEach((s) => {
+    name = name + s.charAt(0);
+  });
 
   const next_photo = () => {
     if (p_index + 1 === max) {
@@ -78,8 +103,7 @@ const Post = (props) => {
   };
 
   const navButton = () => {
-    console.log(props.data.image.length);
-    if (props.data.image.length > 1) {
+    if (props.data.images.length > 1) {
       return (
         <React.Fragment>
           <Button className={classes.navbeforebutton} onClick={prev_photo}>
@@ -96,48 +120,106 @@ const Post = (props) => {
     }
   };
 
+  const radioGroup = () => {
+    if (props.data.images.length > 1) {
+      return (
+        <CardActions disableSpacing className={classes.radioGroup}>
+          {props.data.images.map((_, index) => {
+            return (
+              <Radio
+                checked={p_index === index}
+                onChange={handleRadioChange}
+                name="radio-button"
+                size="small"
+                value={index}
+                key={index}
+              />
+            );
+          })}
+        </CardActions>
+      );
+    } else {
+      return;
+    }
+  };
+
+  const handleRadioChange = (e) => {
+    setIndex(parseInt(e.target.value));
+  };
+
+  const handleImageClick = (e) => {
+    window.open(`${root_url}${props.data.images[p_index]}`, "_blank");
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
-    <div className={classes.root}>
-      <Card raised={false}>
-        <CardHeader
-          avatar={
-            <Avatar aria-label="recipe" className={classes.avatar}>
-              {props.data.username}
-            </Avatar>
-          }
-          action={
-            <IconButton aria-label="settings">
+    <Card raised={false}>
+      <CardHeader
+        avatar={
+          <Avatar aria-label="avatar" className={classes.avatar}>
+            {name}
+          </Avatar>
+        }
+        action={
+          <div>
+            <IconButton aria-label="settings" onClick={handleClick}>
               <MoreVertIcon />
             </IconButton>
-          }
-          title={props.data.title}
-          subheader={props.data.date}
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleClose}>
+                <DeleteIcon />
+                <Typography>Delete</Typography>
+              </MenuItem>
+            </Menu>
+          </div>
+        }
+        title={`${props.data.title} @ ${props.data.location}`}
+        subheader={date.toString()}
+      />
+      <CardMedia
+        className={classes.media}
+        image={`${root_url}${props.data.images[p_index]}`}
+        component="iframeM"
+      >
+        {navButton()}
+
+        <Paper
+          onClick={handleImageClick}
+          className={classes.imageClick}
+          elevation={0}
         />
-        <CardMedia
-          className={classes.media}
-          image={props.data.image[p_index]}
-          title={props.data.imagetitle}
-        >
-          {navButton()}
-        </CardMedia>
-        <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {props.data.text}
-          </Typography>
-        </CardContent>
-        <CardActions disableSpacing>
-          <IconButton aria-label="favorites">
-            <FavoriteIcon />
-          </IconButton>
-          <IconButton aria-label="share">
-            <ShareIcon />
-          </IconButton>
-          <IconButton className={classes.comment} aria-label="comment">
-            <MessageIcon />
-          </IconButton>
-        </CardActions>
-      </Card>
-    </div>
+      </CardMedia>
+      {radioGroup()}
+      <CardContent>
+        <Typography variant="body2" color="textPrimary" component="p">
+          {props.data.text}
+        </Typography>
+      </CardContent>
+      <CardActions disableSpacing>
+        <IconButton aria-label="favorites">
+          <FavoriteIcon />
+        </IconButton>
+        <IconButton aria-label="share">
+          <ShareIcon />
+        </IconButton>
+        <IconButton className={classes.comment} aria-label="comment">
+          <MessageIcon />
+        </IconButton>
+      </CardActions>
+    </Card>
   );
 };
 
