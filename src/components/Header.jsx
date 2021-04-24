@@ -11,8 +11,9 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
+  appbar: {
+    display: "relative",
+    backgroundColor: "#1565c0",
   },
   link: {
     position: "relative",
@@ -23,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     color: "inherit",
   },
+  toolbar: theme.mixins.toolbar,
 }));
 
 const Header = (props) => {
@@ -30,8 +32,8 @@ const Header = (props) => {
 
   return (
     <div>
-      <AppBar className={classes.root}>
-        <Toolbar>
+      <AppBar className={classes.appbar} id="header">
+        <Toolbar className={classes.toolbar}>
           <Grid container spacing={1}>
             <Grid item xs={3} sm={2} lg={1}>
               <Link to="/" style={{ textDecoration: "none" }}>

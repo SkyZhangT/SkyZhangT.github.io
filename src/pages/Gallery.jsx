@@ -135,23 +135,21 @@ const Gallery = (props) => {
         <Grid item lg={3}></Grid>
 
         <Grid item xs={12} lg={6}>
-          <div>
-            {posts.map((post, index) => {
-              if (posts.length === index + 1) {
-                return (
-                  <div className={classes.card} ref={lastPostRef} key={post.id}>
-                    <Post data={post} />
-                  </div>
-                );
-              } else {
-                return (
-                  <div className={classes.card} key={post.id}>
-                    <Post data={post} />
-                  </div>
-                );
-              }
-            })}
-          </div>
+          {posts.map((post, index) => {
+            if (posts.length === index + 1) {
+              return (
+                <div className={classes.card} ref={lastPostRef} key={post.id}>
+                  <Post data={post} />
+                </div>
+              );
+            } else {
+              return (
+                <div className={classes.card} key={post.id}>
+                  <Post data={post} />
+                </div>
+              );
+            }
+          })}
           {loadingButton()}
           {errorMessage()}
         </Grid>

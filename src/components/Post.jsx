@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import PropTypes from "prop-types";
 import { red } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
@@ -62,10 +63,10 @@ const useStyles = makeStyles((theme) => ({
   imageClick: {
     position: "absolute",
     background: "transparent",
-    top: "30%",
-    right: "30%",
-    minHeight: "40%",
-    minWidth: "40%",
+    top: "10%",
+    right: "25%",
+    minHeight: "80%",
+    minWidth: "50%",
   },
   radioGroup: { justifyContent: "center" },
   comment: {
@@ -78,16 +79,17 @@ const useStyles = makeStyles((theme) => ({
 
 const Post = (props) => {
   const classes = useStyles();
+  const { window, data } = props;
   const [p_index, setIndex] = React.useState(0);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [faved, setFaved] = React.useState(false);
-  const [likes, setLikes] = React.useState(props.data.likes);
+  const [likes, setLikes] = React.useState(data.likes);
 
-  var date = new Date(props.data.time);
-  const max = props.data.images.length;
+  var date = new Date(data.time);
+  const max = data.images.length;
   var name = "";
 
-  props.data.user.split(" ").forEach((s) => {
+  data.user.split(" ").forEach((s) => {
     name = name + s.charAt(0);
   });
 
@@ -108,7 +110,7 @@ const Post = (props) => {
   };
 
   const navButton = () => {
-    if (props.data.images.length > 1) {
+    if (data.images.length > 1) {
       return (
         <React.Fragment>
           <Button className={classes.navbeforebutton} onClick={prev_photo}>
@@ -126,10 +128,10 @@ const Post = (props) => {
   };
 
   const radioGroup = () => {
-    if (props.data.images.length > 1) {
+    if (data.images.length > 1) {
       return (
         <CardActions disableSpacing className={classes.radioGroup}>
-          {props.data.images.map((_, index) => {
+          {data.images.map((_, index) => {
             return (
               <Radio
                 checked={p_index === index}
@@ -153,14 +155,14 @@ const Post = (props) => {
   };
 
   const handleImageClick = (e) => {
-    window.open(`${root_url}${props.data.images[p_index]}`, "_blank");
+    window.open(`${root_url}${data.images[p_index]}`, "_blank");
   };
 
   const handleFavClick = async (e) => {
     if (!faved) {
       try {
         let res = await makeRequest(
-          "/like/" + props.data.id,
+          "/like/" + data.id,
           "put",
           "",
           "application/json",
@@ -214,12 +216,12 @@ const Post = (props) => {
             </Menu>
           </div>
         }
-        title={`${props.data.title} @ ${props.data.location}`}
+        title={`${data.title} @ ${data.location}`}
         subheader={date.toString()}
       />
       <CardMedia
         className={classes.media}
-        image={`${root_url}${props.data.images[p_index]}`}
+        image={`${root_url}${data.images[p_index]}`}
       >
         {navButton()}
 
@@ -232,7 +234,7 @@ const Post = (props) => {
       {radioGroup()}
       <CardContent>
         <Typography variant={"body2"} color="textPrimary" component="p">
-          {props.data.text}
+          {data.text}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -253,6 +255,25 @@ const Post = (props) => {
       </CardActions>
     </Card>
   );
+};
+
+Post.propTypes = {
+  /**
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  window: PropTypes.func,
+  data: {
+    id: String,
+    user: String,
+    title: String,
+    location: String,
+    time: Int32Array,
+    text: String,
+    images: Array,
+    likes: Int32Array,
+    comments: Array,
+  },
 };
 
 export default Post;
