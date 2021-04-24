@@ -26,6 +26,7 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNextRounded";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import { root_url } from "../config/config";
 import DeleteIcon from "@material-ui/icons/Delete";
+import makeRequest from "../utils/network";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -38,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
     objectFit: "fill",
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#e8eaed",
   },
   navbeforebutton: {
     position: "absolute",
@@ -78,6 +80,9 @@ const Post = (props) => {
   const classes = useStyles();
   const [p_index, setIndex] = React.useState(0);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [faved, setFaved] = React.useState(false);
+  const [likes, setLikes] = React.useState(props.data.likes);
+
   var date = new Date(props.data.time);
   const max = props.data.images.length;
   var name = "";
@@ -151,6 +156,29 @@ const Post = (props) => {
     window.open(`${root_url}${props.data.images[p_index]}`, "_blank");
   };
 
+  const handleFavClick = async (e) => {
+    if (!faved) {
+      try {
+        let res = await makeRequest(
+          "/like/" + props.data.id,
+          "put",
+          "",
+          "application/json",
+          { inc: true }
+        );
+        if (res.status === 200) {
+          setLikes(res.data);
+        } else {
+          console.log(res.status);
+          return;
+        }
+      } catch (err) {
+        return;
+      }
+      setFaved(true);
+    }
+  };
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -160,7 +188,7 @@ const Post = (props) => {
   };
 
   return (
-    <Card raised={false}>
+    <Card raised={false} className={classes.card}>
       <CardHeader
         avatar={
           <Avatar aria-label="avatar" className={classes.avatar}>
@@ -192,7 +220,6 @@ const Post = (props) => {
       <CardMedia
         className={classes.media}
         image={`${root_url}${props.data.images[p_index]}`}
-        component="iframeM"
       >
         {navButton()}
 
@@ -204,17 +231,22 @@ const Post = (props) => {
       </CardMedia>
       {radioGroup()}
       <CardContent>
-        <Typography variant="body2" color="textPrimary" component="p">
+        <Typography variant={"body2"} color="textPrimary" component="p">
           {props.data.text}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="favorites">
+        <IconButton
+          aria-label="favorites"
+          onClick={handleFavClick}
+          style={{ color: faved ? "#f44336" : "default" }}
+        >
           <FavoriteIcon />
         </IconButton>
-        <IconButton aria-label="share">
+        <Typography>{`${likes}`}</Typography>
+        {/* <IconButton aria-label="share">
           <ShareIcon />
-        </IconButton>
+        </IconButton> */}
         <IconButton className={classes.comment} aria-label="comment">
           <MessageIcon />
         </IconButton>

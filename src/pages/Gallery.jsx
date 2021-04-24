@@ -1,11 +1,18 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
-import { Fab, Grid, CircularProgress } from "@material-ui/core";
+import {
+  Fab,
+  Grid,
+  CircularProgress,
+  Paper,
+  Typography,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Post from "../components/Post";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { root_url } from "../config/config";
+import gintama from "../res/Gintama.jpeg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,10 +86,44 @@ const Gallery = (props) => {
   );
 
   const loadingButton = () => {
-    if (loading) {
+    if (loading && !error) {
       return (
-        <div>
+        <div className={classes.card}>
           <CircularProgress />
+        </div>
+      );
+    }
+  };
+
+  const errorMessage = () => {
+    if (error) {
+      return (
+        <div className={classes.card}>
+          <Paper>
+            <Typography
+              variant="h5"
+              style={{ width: "95%", paddingTop: "0.5rem" }}
+            >
+              Oops, looks like we failed to load the content. It is because
+              either you need a new service provider or the backend server is on
+              its vacation. It is definitely not due to any technical issues.
+            </Typography>
+            <img
+              src={gintama}
+              alt="error"
+              style={{ width: "95%", paddingTop: "0.5rem" }}
+            />
+            <Typography
+              variant="h5"
+              style={{
+                width: "95%",
+                paddingTop: "0.5rem",
+                paddingBottom: "0.5rem",
+              }}
+            >
+              Refresh the page to retry
+            </Typography>
+          </Paper>
         </div>
       );
     }
@@ -112,6 +153,7 @@ const Gallery = (props) => {
             })}
           </div>
           {loadingButton()}
+          {errorMessage()}
         </Grid>
 
         <Grid item lg={3}></Grid>

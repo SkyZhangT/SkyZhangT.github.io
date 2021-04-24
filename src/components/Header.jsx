@@ -7,11 +7,8 @@ import {
   Grid,
   Button,
 } from "@material-ui/core";
-import DateRangeIcon from "@material-ui/icons/DateRange";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import { Route } from "react-router";
 import { Link } from "react-router-dom";
-import DateDrawer from "./DateDrawer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,46 +27,28 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = (props) => {
   const classes = useStyles();
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
-
-  const handleDrawerToggle = () => {
-    setDrawerOpen(!drawerOpen);
-  };
 
   return (
     <div>
       <AppBar className={classes.root}>
         <Toolbar>
-          <Grid container spacing={2}>
-            <Grid item xs={2} md={1}>
-              <Route exact path="/">
-                <IconButton
-                  aria-label="dates"
-                  edge="end"
-                  className={classes.button}
-                  onClick={handleDrawerToggle}
-                >
-                  <DateRangeIcon />
-                </IconButton>
-              </Route>
-            </Grid>
-
-            <Grid item xs={3} md={2} lg={1}>
+          <Grid container spacing={1}>
+            <Grid item xs={3} sm={2} lg={1}>
               <Link to="/" style={{ textDecoration: "none" }}>
                 <Button className={classes.link}>Gallery</Button>
               </Link>
             </Grid>
 
-            <Grid item xs={3} md={2} lg={1}>
+            <Grid item xs={3} sm={2} lg={1}>
               <Link to="/about" style={{ textDecoration: "none" }}>
                 <Button className={classes.link}>About</Button>
               </Link>
             </Grid>
 
             {/*middle spacing*/}
-            <Grid item xs={2} md={6} lg={8} />
+            <Grid item xs={5} sm={7} lg={9} />
 
-            <Grid item xs={2} md={1}>
+            <Grid item xs={1}>
               <IconButton
                 aria-label="login"
                 edge="end"
@@ -82,10 +61,6 @@ const Header = (props) => {
         </Toolbar>
       </AppBar>
       <Toolbar />
-
-      <Route exact path="/">
-        <DateDrawer open={drawerOpen} Toggle={handleDrawerToggle} />
-      </Route>
     </div>
   );
 };

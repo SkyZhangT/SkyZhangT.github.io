@@ -1,1 +1,1 @@
-export const root_url = "http://66.75.241.198:8080";
+export const root_url = "https://oc43214.ml";

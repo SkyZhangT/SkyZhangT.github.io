@@ -236,6 +236,7 @@ const NewPost = (props) => {
           time: date,
           text: body,
           images: images,
+          likes: 0,
         }
       );
       if (result.status === 200) {
