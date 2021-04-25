@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import { red } from "@material-ui/core/colors";
@@ -12,6 +12,7 @@ import {
   Card,
   MenuItem,
   CardHeader,
+  TextField,
   CardMedia,
   CardContent,
   CardActions,
@@ -19,9 +20,7 @@ import {
   IconButton,
   Typography,
   Radio,
-  CardActionArea,
   Paper,
-  Box,
 } from "@material-ui/core";
 import NavigateNextIcon from "@material-ui/icons/NavigateNextRounded";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
@@ -79,11 +78,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Post = (props) => {
   const classes = useStyles();
-  const { window, data } = props;
-  const [p_index, setIndex] = React.useState(0);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [faved, setFaved] = React.useState(false);
-  const [likes, setLikes] = React.useState(data.likes);
+  const { data, index, handleOpenDialog } = props;
+
+  const [p_index, setIndex] = useState(0);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [faved, setFaved] = useState(false);
+  const [likes, setLikes] = useState(data.likes);
 
   var date = new Date(data.time);
   const max = data.images.length;
@@ -181,99 +181,86 @@ const Post = (props) => {
     }
   };
 
-  const handleClick = (event) => {
+  const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleMenuClose = () => {
     setAnchorEl(null);
   };
 
-  return (
-    <Card raised={false} className={classes.card}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="avatar" className={classes.avatar}>
-            {name}
-          </Avatar>
-        }
-        action={
-          <div>
-            <IconButton aria-label="settings" onClick={handleClick}>
-              <MoreVertIcon />
-            </IconButton>
-            <Menu
-              id="simple-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              <MenuItem onClick={handleClose}>
-                <DeleteIcon />
-                <Typography>Delete</Typography>
-              </MenuItem>
-            </Menu>
-          </div>
-        }
-        title={`${data.title} @ ${data.location}`}
-        subheader={date.toString()}
-      />
-      <CardMedia
-        className={classes.media}
-        image={`${root_url}${data.images[p_index]}`}
-      >
-        {navButton()}
+  const handleDeleteClick = (e) => {
+    handleOpenDialog(index);
+  };
 
-        <Paper
-          onClick={handleImageClick}
-          className={classes.imageClick}
-          elevation={0}
+  return (
+    <div>
+      <Card raised={false} className={classes.card}>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="avatar" className={classes.avatar}>
+              {name}
+            </Avatar>
+          }
+          action={
+            <div>
+              <IconButton aria-label="settings" onClick={handleMenuClick}>
+                <MoreVertIcon />
+              </IconButton>
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClose}
+              >
+                <MenuItem onClick={handleDeleteClick}>
+                  <DeleteIcon />
+                  <Typography>Delete</Typography>
+                </MenuItem>
+              </Menu>
+            </div>
+          }
+          title={`${data.title} @ ${data.location}`}
+          subheader={date.toString()}
         />
-      </CardMedia>
-      {radioGroup()}
-      <CardContent>
-        <Typography variant={"body2"} color="textPrimary" component="p">
-          {data.text}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton
-          aria-label="favorites"
-          onClick={handleFavClick}
-          style={{ color: faved ? "#f44336" : "default" }}
+        <CardMedia
+          className={classes.media}
+          image={`${root_url}${data.images[p_index]}`}
         >
-          <FavoriteIcon />
-        </IconButton>
-        <Typography>{`${likes}`}</Typography>
-        {/* <IconButton aria-label="share">
+          {navButton()}
+
+          <Paper
+            onClick={handleImageClick}
+            className={classes.imageClick}
+            elevation={0}
+          />
+        </CardMedia>
+        {radioGroup()}
+        <CardContent>
+          <Typography variant={"body2"} color="textPrimary" component="p">
+            {data.text}
+          </Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+          <IconButton
+            aria-label="favorites"
+            onClick={handleFavClick}
+            style={{ color: faved ? "#f44336" : "default" }}
+          >
+            <FavoriteIcon />
+          </IconButton>
+          <Typography>{`${likes}`}</Typography>
+          {/* <IconButton aria-label="share">
           <ShareIcon />
         </IconButton> */}
-        <IconButton className={classes.comment} aria-label="comment">
-          <MessageIcon />
-        </IconButton>
-      </CardActions>
-    </Card>
+          <IconButton className={classes.comment} aria-label="comment">
+            <MessageIcon />
+          </IconButton>
+        </CardActions>
+      </Card>
+    </div>
   );
-};
-
-Post.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
-  data: {
-    id: String,
-    user: String,
-    title: String,
-    location: String,
-    time: Int32Array,
-    text: String,
-    images: Array,
-    likes: Int32Array,
-    comments: Array,
-  },
 };
 
 export default Post;

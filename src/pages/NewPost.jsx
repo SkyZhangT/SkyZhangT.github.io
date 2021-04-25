@@ -173,7 +173,7 @@ const NewPost = (props) => {
     }
   };
 
-  const handleClickOpenDialog = () => {
+  const handleOpenDialog = () => {
     setOpenDialog(true);
   };
 
@@ -190,7 +190,7 @@ const NewPost = (props) => {
       locationError ||
       uploadFiles.length === 0
     ) {
-      handleClickOpenDialog();
+      handleOpenDialog();
       return;
     }
     setProgress(0);
@@ -372,6 +372,16 @@ const NewPost = (props) => {
               open={openDialog}
               onClose={handleCloseDialog}
               Notification="Invalid Post"
+              action={
+                <Button
+                  autoFocus
+                  onClick={handleCloseDialog}
+                  color="primary"
+                  style={{ margin: 0 }}
+                >
+                  ok
+                </Button>
+              }
             />
           </Paper>
         </Grid>

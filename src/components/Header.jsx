@@ -48,9 +48,9 @@ const Header = (props) => {
             </Grid>
 
             {/*middle spacing*/}
-            <Grid item xs={5} sm={7} lg={9} />
+            <Grid item xs={4} sm={7} lg={9} />
 
-            <Grid item xs={1}>
+            <Grid item xs={2} sm={1}>
               <IconButton
                 aria-label="login"
                 edge="end"

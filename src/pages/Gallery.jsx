@@ -5,6 +5,8 @@ import {
   CircularProgress,
   Paper,
   Typography,
+  TextField,
+  Button,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Post from "../components/Post";
@@ -13,6 +15,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { root_url } from "../config/config";
 import gintama from "../res/Gintama.jpeg";
+import SimpleDialog from "../components/Dialog";
+import makeRequest from "../utils/network";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,9 +28,19 @@ const useStyles = makeStyles((theme) => ({
     position: "fixed",
     bottom: theme.spacing(2),
     right: theme.spacing(2),
+    backgroundColor: "#1565c0",
   },
   card: {
     paddingTop: theme.spacing(0.5),
+  },
+  errorCard: {
+    padding: theme.spacing(3),
+    textAlign: "justify",
+  },
+  errorMessage: {
+    width: "100%",
+    padding: theme.spacing(1),
+    color: "Red",
   },
 }));
 
@@ -36,12 +50,12 @@ const usePostSearch = (pageNumber) => {
   const [error, setError] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
-  useEffect(() => {
+  useEffect(async () => {
     setLoading(true);
     setError(false);
     let cancel;
     console.log(pageNumber);
-    axios({
+    await axios({
       method: "GET",
       url: root_url + "/post",
       params: { page: pageNumber },
@@ -56,9 +70,18 @@ const usePostSearch = (pageNumber) => {
       })
       .catch((err) => {
         if (axios.isCancel(err)) return;
-        console.log(err);
+        if (error.response) {
+          //reserved for future use
+          switch (error.response.status) {
+            case 429:
+              break;
+            default:
+              break;
+          }
+        }
         setLoading(false);
         setError(true);
+        console.log(err);
       });
   }, [pageNumber]);
 
@@ -68,6 +91,10 @@ const usePostSearch = (pageNumber) => {
 const Gallery = (props) => {
   const classes = useStyles();
   const [pageNumber, setPageNumber] = useState(0);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [delIndex, setDelIndex] = useState(0);
+  const [token, setToken] = useState("");
+  const [tokenError, setTokenError] = useState(true);
   const { posts, loading, error, hasMore } = usePostSearch(pageNumber);
 
   const observer = useRef();
@@ -99,33 +126,60 @@ const Gallery = (props) => {
     if (error) {
       return (
         <div className={classes.card}>
-          <Paper>
-            <Typography
-              variant="h5"
-              style={{ width: "95%", paddingTop: "0.5rem" }}
-            >
+          <Paper className={classes.errorCard}>
+            <Typography variant="h5" className={classes.errorMessage}>
               Oops, looks like we failed to load the content. It is because
               either you need a new service provider or the backend server is on
               its vacation. It is definitely not due to any technical issues.
             </Typography>
-            <img
-              src={gintama}
-              alt="error"
-              style={{ width: "95%", paddingTop: "0.5rem" }}
-            />
+            <img src={gintama} alt="error" className={classes.errorMessage} />
             <Typography
               variant="h5"
-              style={{
-                width: "95%",
-                paddingTop: "0.5rem",
-                paddingBottom: "0.5rem",
-              }}
+              className={classes.errorMessage}
+              style={{ textAlign: "center" }}
             >
               Refresh the page to retry
             </Typography>
           </Paper>
         </div>
       );
+    }
+  };
+
+  const handleOpenDialog = async (index) => {
+    setOpenDialog(true);
+    await setDelIndex(index);
+    console.log(index);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const handleTokenChange = (event) => {
+    setToken(event.target.value);
+    if (event.target.value.length > 0) {
+      setTokenError(false);
+    } else {
+      setTokenError(true);
+    }
+  };
+
+  const handleDeletePost = async () => {
+    try {
+      let result = await makeRequest(
+        "/post/" + posts[delIndex].id,
+        "delete",
+        token,
+        "application/json",
+        {
+          id: posts[delIndex].id,
+        }
+      );
+      console.log(result);
+      window.location.reload(true);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -139,17 +193,48 @@ const Gallery = (props) => {
             if (posts.length === index + 1) {
               return (
                 <div className={classes.card} ref={lastPostRef} key={post.id}>
-                  <Post data={post} />
+                  <Post
+                    data={post}
+                    index={index}
+                    handleOpenDialog={handleOpenDialog}
+                  />
                 </div>
               );
             } else {
               return (
                 <div className={classes.card} key={post.id}>
-                  <Post data={post} />
+                  <Post
+                    data={post}
+                    index={index}
+                    handleOpenDialog={handleOpenDialog}
+                  />
                 </div>
               );
             }
           })}
+
+          <SimpleDialog
+            open={openDialog}
+            onClose={handleCloseDialog}
+            Notification={`Do you really want to delete the post?`}
+            content={
+              <div key="content">
+                <TextField
+                  id="text"
+                  label="Token"
+                  type="text"
+                  error={tokenError}
+                  onChange={handleTokenChange}
+                />
+              </div>
+            }
+            action={
+              <div>
+                <Button onClick={handleDeletePost}>Yes</Button>
+                <Button onClick={handleCloseDialog}>No</Button>
+              </div>
+            }
+          />
           {loadingButton()}
           {errorMessage()}
         </Grid>
