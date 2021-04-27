@@ -13,7 +13,6 @@ import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   appbar: {
     display: "relative",
-    backgroundColor: "#1565c0",
   },
   link: {
     position: "relative",
@@ -28,11 +27,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Header = (props) => {
+  const { isAbout } = props;
   const classes = useStyles();
+
+  // window.onscroll = function () {
+  //   if (window.pageYOffset === 0) {
+  //     alert("I AM AT THE TOP");
+  //   }
+  // };
 
   return (
     <div>
-      <AppBar className={classes.appbar} id="header">
+      <AppBar
+        className={classes.appbar}
+        id="header"
+        style={{
+          backgroundColor: isAbout ? "#252e37" : "#1565c0",
+        }}
+      >
         <Toolbar className={classes.toolbar}>
           <Grid container spacing={1}>
             <Grid item xs={3} sm={2} lg={1}>
@@ -62,7 +74,6 @@ const Header = (props) => {
           </Grid>
         </Toolbar>
       </AppBar>
-      <Toolbar />
     </div>
   );
 };

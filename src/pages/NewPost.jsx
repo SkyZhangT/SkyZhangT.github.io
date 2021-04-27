@@ -7,6 +7,7 @@ import {
   Button,
   IconButton,
   CircularProgress,
+  Toolbar,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import getFormattedDate from "../utils/misc";
@@ -15,6 +16,7 @@ import SimpleDialog from "../components/Dialog";
 import LinearProgressWithLabel from "../components/ProgressBar";
 import PublishIcon from "@material-ui/icons/Publish";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
+import Header from "../components/Header";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -254,6 +256,8 @@ const NewPost = (props) => {
 
   return (
     <div>
+      <Header />
+      <Toolbar />
       <Grid container spacing={1}>
         <Grid item lg={3}></Grid>
 

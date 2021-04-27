@@ -7,6 +7,7 @@ import {
   Typography,
   TextField,
   Button,
+  Toolbar,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Post from "../components/Post";
@@ -17,6 +18,7 @@ import { root_url } from "../config/config";
 import gintama from "../res/Gintama.jpeg";
 import SimpleDialog from "../components/Dialog";
 import makeRequest from "../utils/network";
+import Header from "../components/Header";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,12 +52,12 @@ const usePostSearch = (pageNumber) => {
   const [error, setError] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
-  useEffect(async () => {
+  useEffect(() => {
     setLoading(true);
     setError(false);
     let cancel;
     console.log(pageNumber);
-    await axios({
+    axios({
       method: "GET",
       url: root_url + "/post",
       params: { page: pageNumber },
@@ -185,6 +187,8 @@ const Gallery = (props) => {
 
   return (
     <div className={classes.root}>
+      <Header />
+      <Toolbar />
       <Grid container spacing={1}>
         <Grid item lg={3}></Grid>
 

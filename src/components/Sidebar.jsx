@@ -1,149 +1,123 @@
 import React from "react";
-import PropTypes from "prop-types";
-import AppBar from "@material-ui/core/AppBar";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Fab from "@material-ui/core/Fab";
-import Drawer from "@material-ui/core/Drawer";
-import Hidden from "@material-ui/core/Hidden";
-import IconButton from "@material-ui/core/IconButton";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import MailIcon from "@material-ui/icons/Mail";
-import MenuIcon from "@material-ui/icons/Menu";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
+import { Typography, Avatar, List, ListItem, Link } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-
-const drawerWidth = 20;
+import pic1 from "../res/avatar.jpg";
+import EmailIcon from "@material-ui/icons/Email";
+import PhoneIcon from "@material-ui/icons/Phone";
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
+import GitHubIcon from "@material-ui/icons/GitHub";
+import InstagramIcon from "@material-ui/icons/Instagram";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
+    position: "relative",
+    justifyContent: "center",
   },
-  drawer: {
-    [theme.breakpoints.up("sm")]: {
-      width: `${drawerWidth}%`,
-      flexShrink: 0,
-    },
+  list: { paddingTop: 100 },
+  listItem: {
+    position: "relative",
+    justifyContent: "center",
   },
-  menuButton: {
-    position: "fixed",
-    bottom: theme.spacing(2),
-    left: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
-      display: "none",
-    },
+  image: {
+    position: "absolute",
+    width: 170,
+    height: 170,
+    backgroundColor: "gray",
   },
-  // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
-  drawerPaper: {
-    width: `${drawerWidth}%`,
-    zIndex: 3,
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
+  text: {
+    padding: theme.spacing(1),
   },
 }));
 
-const Sidebar = (props) => {
-  const { window } = props;
+const Sidebar = () => {
   const classes = useStyles();
-  const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
-
-      <div className={classes.toolbar} />
-      <nav className={classes.drawer} aria-label="mailbox folders">
-        <Hidden xsDown implementation="css">
-          <Drawer
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            variant="persistent"
-            open
-          ></Drawer>
-        </Hidden>
-        <Hidden smUp implementation="css">
-          <Drawer
-            container={container}
-            variant="temporary"
-            anchor={theme.direction === "rtl" ? "right" : "left"}
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
-          ></Drawer>
-        </Hidden>
-      </nav>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
-          dolor purus non enim praesent elementum facilisis leo vel. Risus at
-          ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum
-          quisque non tellus. Convallis convallis tellus id interdum velit
-          laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed
-          adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
-          integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate
-          eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo
-          quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat
-          vivamus at augue. At augue eget arcu dictum varius duis at consectetur
-          lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien
-          faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-          ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
-          elementum integer enim neque volutpat ac tincidunt. Ornare suspendisse
-          sed nisi lacus sed viverra tellus. Purus sit amet volutpat consequat
-          mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis
-          risus sed vulputate odio. Morbi tincidunt ornare massa eget egestas
-          purus viverra accumsan in. In hendrerit gravida rutrum quisque non
-          tellus orci ac. Pellentesque nec nam aliquam sem et tortor. Habitant
-          morbi tristique senectus et. Adipiscing elit duis tristique
-          sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
-      </main>
-      <Fab
-        color="inherit"
-        aria-label="open drawer"
-        edge="start"
-        onClick={handleDrawerToggle}
-        className={classes.menuButton}
-      >
-        <MenuIcon />
-      </Fab>
+      <List component="ul" aria-label="sidebar_list" className={classes.list}>
+        <ListItem className={classes.listItem}>
+          <Avatar
+            outlined
+            alt="Tianyang Zhang"
+            src={pic1}
+            className={classes.image}
+          />
+        </ListItem>
+        <ListItem className={classes.listItem} style={{ paddingTop: 100 }}>
+          <Typography
+            variant="h5"
+            style={{ fontFamily: "Open Sans", fontWeight: 700 }}
+            className={classes.text}
+          >
+            {" "}
+            Tianyang Zhang
+          </Typography>
+        </ListItem>
+        <ListItem className={classes.listItem}>
+          <List>
+            <ListItem className={classes.listItem}>
+              <EmailIcon />
+              <Typography className={classes.text}>
+                zhangtianyangsky@gmail.com
+              </Typography>
+            </ListItem>
+            <ListItem className={classes.listItem}>
+              <PhoneIcon />
+              <Typography className={classes.text}>(614) 852-0566</Typography>
+            </ListItem>
+          </List>
+        </ListItem>
+        <ListItem className={classes.listItem}>
+          <List>
+            <ListItem className={classes.listItem}>
+              <Typography>Introduction</Typography>
+            </ListItem>
+            <ListItem className={classes.listItem}>
+              <Typography>News</Typography>
+            </ListItem>
+            <ListItem className={classes.listItem}>
+              <Typography>Projects</Typography>
+            </ListItem>
+            <ListItem className={classes.listItem}>
+              <Typography>CV</Typography>
+            </ListItem>
+          </List>
+        </ListItem>{" "}
+        <ListItem className={classes.listItem}>
+          <List>
+            <ListItem className={classes.listItem}>
+              <Link
+                href="https://www.linkedin.com/in/tianyang-zhang-sky/"
+                color="inherit"
+              >
+                <LinkedInIcon />
+              </Link>
+            </ListItem>
+            <ListItem className={classes.listItem}>
+              <Link href="https://github.com/SkyZhangT" color="inherit">
+                <GitHubIcon />
+              </Link>
+            </ListItem>
+            <ListItem className={classes.listItem}>
+              <Link
+                href="https://www.instagram.com/tianyan_zhang/"
+                color="inherit"
+              >
+                <InstagramIcon />
+              </Link>
+            </ListItem>
+          </List>
+        </ListItem>
+        <ListItem className={classes.listItem}>
+          <Typography style={{ color: "gray", textAlign: "center" }}>
+            Made with React, Material-ui, and some love
+            <FavoriteIcon />.
+          </Typography>
+        </ListItem>
+      </List>
     </div>
   );
-};
-
-Sidebar.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
 };
 
 export default Sidebar;
