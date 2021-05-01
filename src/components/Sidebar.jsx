@@ -37,12 +37,7 @@ const Sidebar = () => {
     <div className={classes.root}>
       <List component="ul" aria-label="sidebar_list" className={classes.list}>
         <ListItem className={classes.listItem}>
-          <Avatar
-            outlined
-            alt="Tianyang Zhang"
-            src={pic1}
-            className={classes.image}
-          />
+          <Avatar alt="Tianyang Zhang" src={pic1} className={classes.image} />
         </ListItem>
         <ListItem className={classes.listItem} style={{ paddingTop: 100 }}>
           <Typography
@@ -71,16 +66,16 @@ const Sidebar = () => {
         <ListItem className={classes.listItem}>
           <List>
             <ListItem className={classes.listItem}>
-              <Typography>Introduction</Typography>
+              <Typography>About Me</Typography>
             </ListItem>
             <ListItem className={classes.listItem}>
-              <Typography>News</Typography>
+              <Typography>Skills</Typography>
             </ListItem>
             <ListItem className={classes.listItem}>
               <Typography>Projects</Typography>
             </ListItem>
             <ListItem className={classes.listItem}>
-              <Typography>CV</Typography>
+              <Typography>Contact Me</Typography>
             </ListItem>
           </List>
         </ListItem>{" "}

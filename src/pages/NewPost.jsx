@@ -27,19 +27,7 @@ const useStyles = makeStyles((theme) => ({
   line: {
     paddingTop: theme.spacing(1),
   },
-  title: {
-    width: "30%",
-    spacing: theme.spacing(1),
-  },
-  location: {
-    width: "30%",
-    marginLeft: "2.5%",
-  },
-  date: {
-    width: "30%",
-    marginLeft: "2.5%",
-  },
-  description: {
+  textField: {
     width: "95%",
   },
   image: {
@@ -263,50 +251,58 @@ const NewPost = (props) => {
 
         <Grid item xs={12} lg={6}>
           <Paper className={classes.root}>
-            <div className={classes.line}>
-              <TextField
-                id="title"
-                label="Title"
-                type="text"
-                error={titleError}
-                className={classes.title}
-                onChange={handleTitleChange}
-              />
-              <TextField
-                id="location"
-                label="Location"
-                type="text"
-                error={titleError}
-                className={classes.location}
-                onChange={handleLocationChange}
-              />
-              <TextField
-                id="date"
-                label="Date"
-                type="date"
-                error={dateError}
-                defaultValue={getFormattedDate()}
-                className={classes.date}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onChange={handleDateChange}
-              />
-            </div>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={4}>
+                <TextField
+                  id="title"
+                  label="Title"
+                  type="text"
+                  error={titleError}
+                  className={classes.textField}
+                  onChange={handleTitleChange}
+                />
+              </Grid>
 
-            <div className={classes.line}>
-              <TextField
-                id="text"
-                label="Description"
-                type="text"
-                error={bodyError}
-                rows={4}
-                rowsMax={4}
-                multiline
-                className={classes.description}
-                onChange={handleBodyChange}
-              />
-            </div>
+              <Grid item xs={12} md={4}>
+                <TextField
+                  id="location"
+                  label="Location"
+                  type="text"
+                  error={titleError}
+                  className={classes.textField}
+                  onChange={handleLocationChange}
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  id="date"
+                  label="Date"
+                  type="date"
+                  error={dateError}
+                  defaultValue={getFormattedDate()}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  className={classes.textField}
+                  onChange={handleDateChange}
+                />
+              </Grid>
+
+              <Grid item xs={12} md={12}>
+                <TextField
+                  id="text"
+                  label="Description"
+                  type="text"
+                  error={bodyError}
+                  rows={4}
+                  rowsMax={4}
+                  multiline
+                  className={classes.textField}
+                  onChange={handleBodyChange}
+                />
+              </Grid>
+            </Grid>
 
             {selectedImages.map((img, index) => (
               <div className={classes.line} key={"img" + index.toString()}>
