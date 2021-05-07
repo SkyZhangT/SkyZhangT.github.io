@@ -19,11 +19,20 @@ export const skills = [
     image: web,
   },
   {
-    title: "API Design",
+    title: "API Development",
     text:
       "A successful software always have a fast and robust backend. In backend development, I value safer, faster, and more scalable solutions. I also frequently expose myself with cutting edge solutions like new languages and databases.",
     image: api,
   },
+  {
+    title: "Machine Learning",
+    text:
+      "Artifical intellegence is the future, and machine learning might be the closest approach. I love challenging myself with new concepts. Doing research at UCSD, I am exploring more possibilities with Natural Language Processing.",
+    image: machine,
+  },
+];
+
+export const projects = [
   {
     title: "Machine Learning",
     text:

@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import Gallery from "./pages/Gallery";
-import About from "./pages/About";
-import NewPost from "./pages/NewPost";
+import Gallery from "./pages/gallery/Gallery";
+import About from "./pages/about/About";
+import NewPost from "./pages/gallery/NewPost";
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Gallery} />
           <Route exact path="/about" component={About} />
-          <Route exact path="/newpost" component={NewPost} />
+          <Route exact path="/gallery/newpost" component={NewPost} />
         </Switch>
       </div>
     </Router>
