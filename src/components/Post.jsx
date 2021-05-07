@@ -36,10 +36,15 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: "77.25%", // 16:9
     position: "relative",
     height: "100%",
-    objectFit: "fill",
-    justifyContent: "center",
-    alignItems: "center",
+    objectPosition: "top",
     backgroundColor: "#e8eaed",
+    media: {
+      objectFit: "fill",
+    },
+  },
+  image: {
+    width: "100%",
+    height: "100%",
   },
   navbeforebutton: {
     position: "absolute",
@@ -227,6 +232,7 @@ const Post = (props) => {
         <CardMedia
           className={classes.media}
           image={`${root_url}${data.images[p_index]}`}
+          classes={{ img: classes.image }}
         >
           {navButton()}
 

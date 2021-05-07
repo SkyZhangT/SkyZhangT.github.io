@@ -19,13 +19,11 @@ import {
   CardContent,
   CardMedia,
 } from "@material-ui/core";
-import bkg1 from "../res/bkg1.jpg";
 import bkg2 from "../res/bkg2.jpg";
 import Header from "../components/Header";
 import port1 from "../res/port1.png";
-import pic1 from "../res/bkg1.jpg";
 import InsertDriveFileIcon from "@material-ui/icons/InsertDriveFile";
-import DevicesIcon from "@material-ui/icons/Devices";
+import { skills } from "../config/config";
 
 const drawerWidth = 20;
 const minWidth = 290;
@@ -90,6 +88,7 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     height: "100%",
+    backgroundColor: "#fafafa",
   },
 }));
 
@@ -98,20 +97,6 @@ const About = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const Skills = [
-    {
-      title: "Development",
-      text:
-        "asdfaswevadfsvaserfvbsefvsdfvszdfc vaserfdvarvadfvadfvaerfgserfbgvs fvzdcvaserfbaf vbazsdcvzs",
-      image: "todo",
-    },
-    { title: "Development", text: "todo", image: pic1 },
-    { title: "Development", text: "todo", image: "todo" },
-    { title: "Development", text: "todo", image: "todo" },
-    { title: "Development", text: "todo", image: "todo" },
-    { title: "Development", text: "todo", image: "todo" },
-    { title: "Development", text: "todo", image: "todo" },
-  ];
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -202,17 +187,17 @@ const About = (props) => {
           }}
           className={classes.container}
         >
-          <Grid container>
+          <Grid container spacing={1} justify="center" alignItems="center">
             <Grid
               item
               xs={12}
-              lg={6}
+              lg={7}
               style={{ justifyContent: "left", alignItems: "left" }}
             >
               <Typography
                 variant="h3"
                 className={classes.aboutText}
-                style={{ fontWeight: 700, paddingTop: 100 }}
+                style={{ fontWeight: 700, paddingTop: 50 }}
               >
                 About Me
               </Typography>
@@ -228,13 +213,14 @@ const About = (props) => {
                 className={classes.aboutText}
                 style={{ fontWeight: 400 }}
               >
-                I am Tianyang Zhang, I enjoy photograpy as well as design and
-                develope software systems. While my background in computer
+                I am Tianyang Zhang, I enjoy photography as well as designing
+                and developing software systems. While my background in computer
                 science gave me adequate knowledge and skills to solve technical
-                problems as a software engineer, my experience as a photographer
-                elevated my aesthetics to appreciate and enjoy my life as a
-                person. As a fullstack developer, I am capable of developing
-                both backend APIs and services and frontend interfaces.
+                problems, my experience as a photographer elevated my aesthetics
+                to appreciate and enjoy my life. As a full-stack developer, I am
+                capable of developing both backend APIs and services and
+                frontend interfaces. As a researcher, I had experience with
+                Natural Language Processing.
               </Typography>
               <Button
                 variant="outlined"
@@ -252,12 +238,13 @@ const About = (props) => {
                 </Typography>
               </Button>
             </Grid>
-            <Grid item xs={12} lg={6}>
+
+            <Grid item xs={10} lg>
               <img
                 src={port1}
                 style={{
                   width: "100%",
-                  maxHeight: 600,
+                  maxHeight: 650,
                   objectFit: "cover",
                   objectPosition: "top",
                   overflow: "hidden",
@@ -288,8 +275,7 @@ const About = (props) => {
             I love what I do. I take great pride in what I do.
           </Typography>
           <Grid container spacing={4} style={{ paddingTop: 50 }}>
-            {Skills.map((s, index) => {
-              console.log(s);
+            {skills.map((s, index) => {
               return (
                 <Grid item xs={12} md={6} lg={3} key={`${index}`}>
                   <Card id={`card ${index}`} className={classes.card}>
@@ -297,7 +283,7 @@ const About = (props) => {
                       <CardMedia
                         image={s.image}
                         title="Contemplative Reptile"
-                        style={{ height: 140 }}
+                        style={{ height: 170 }}
                       />
                       <CardContent className={classes.card}>
                         <Typography gutterBottom variant="h5" component="h2">
@@ -337,8 +323,9 @@ const About = (props) => {
             className={classes.skillText}
             style={{ fontWeight: 500, color: "gray" }}
           >
-            I am passionate about every project I participate in
+            I am passionate about what I do
           </Typography>
+          <Grid container spacing={4} style={{ paddingTop: 50 }}></Grid>
         </Container>
       </main>
       <Fab
