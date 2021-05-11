@@ -47,20 +47,20 @@ const Header = (props) => {
       >
         <Toolbar className={classes.toolbar}>
           <Grid container spacing={1}>
-            <Grid item xs={3} sm={2} lg={1}>
+            <Grid item xs={3} sm={2} md={1}>
               <Link to="/" style={{ textDecoration: "none" }}>
                 <Button className={classes.link}>Gallery</Button>
               </Link>
             </Grid>
 
-            <Grid item xs={3} sm={2} lg={1}>
+            <Grid item xs={4} sm={3} md={2} lg={1}>
               <Link to="/about" style={{ textDecoration: "none" }}>
-                <Button className={classes.link}>About</Button>
+                <Button className={classes.link}>About Me</Button>
               </Link>
             </Grid>
 
             {/*middle spacing*/}
-            <Grid item xs={4} sm={7} lg={9} />
+            <Grid item xs={3} sm={6} md={8} lg={9} />
 
             <Grid item xs={2} sm={1}>
               <IconButton

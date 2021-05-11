@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Container, Fade, Grid, Slide } from "@material-ui/core";
 import InsertDriveFileIcon from "@material-ui/icons/InsertDriveFile";
-import port1 from "../../../res/port1.png";
+import port1 from "../res/port1.png";
 import useOnScreen from "../../../utils/OnScreenHook";
 
 const useStyles = makeStyles((theme) => ({
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
   },
-  aboutText: {
+  text: {
     padding: 5,
     fontFamily: "Open Sans",
     color: "primary",
@@ -31,13 +31,12 @@ const AboutMe = (props) => {
   const isVisible = useOnScreen(ref);
 
   return (
-    <Fade in={isVisible} timeout={2500}>
+    <Fade in={isVisible} timeout={1000}>
       <Container
         ref={ref}
         id="About Me"
         style={{
           backgroundColor: "#fafafa",
-          paddingTop: 0,
           justifyContent: "left",
         }}
         className={classes.container}
@@ -51,21 +50,21 @@ const AboutMe = (props) => {
           >
             <Typography
               variant="h3"
-              className={classes.aboutText}
-              style={{ fontWeight: 700, paddingTop: 50 }}
+              className={classes.text}
+              style={{ fontWeight: 700, paddingTop: "5%" }}
             >
               About Me
             </Typography>
             <Typography
               variant="h6"
-              className={classes.aboutText}
+              className={classes.text}
               style={{ fontWeight: 500, color: "gray" }}
             >
               Photographer & Fullstack Developer,
             </Typography>
             <Typography
               variant="h6"
-              className={classes.aboutText}
+              className={classes.text}
               style={{ fontWeight: 400 }}
             >
               I am Tianyang Zhang, I enjoy photography as well as designing and

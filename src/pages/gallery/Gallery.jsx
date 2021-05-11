@@ -221,7 +221,7 @@ const Gallery = (props) => {
           <SimpleDialog
             open={openDialog}
             onClose={handleCloseDialog}
-            Notification={`Do you really want to delete the post?`}
+            Notification={`Do you really want to delete this post?`}
             content={
               <div key="content">
                 <TextField
@@ -247,13 +247,15 @@ const Gallery = (props) => {
         <Grid item lg={3}></Grid>
       </Grid>
 
-      <Link to="/newpost" style={{ textDecoration: "none" }}>
+      <Link to="/gallery/newpost" style={{ textDecoration: "none" }}>
         <Tooltip title="Add" aria-label="add">
           <Fab color="primary" className={classes.fab} aria-label="add">
             <AddIcon />
           </Fab>
         </Tooltip>
       </Link>
+
+      <div></div>
     </div>
   );
 };

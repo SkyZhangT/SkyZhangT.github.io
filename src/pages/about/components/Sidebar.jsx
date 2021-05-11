@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography, Avatar, List, ListItem, Link } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import pic1 from "../../../res/avatar.jpg";
+import pic1 from "../res/avatar.jpg";
 import EmailIcon from "@material-ui/icons/Email";
 import PhoneIcon from "@material-ui/icons/Phone";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";

@@ -1,6 +1,5 @@
 import React from "react";
 import { useRef } from "react";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Container,
@@ -10,8 +9,9 @@ import {
   CardContent,
   CardMedia,
   Fade,
+  Typography,
 } from "@material-ui/core";
-import { skills } from "../../../config/config";
+import { skills } from "../content";
 import useOnScreen from "../../../utils/OnScreenHook";
 
 const useStyles = makeStyles((theme) => ({
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
   },
-  skillText: {
+  text: {
     padding: 5,
     fontFamily: "Open Sans",
     color: "primary",
@@ -42,7 +42,7 @@ const Skills = (props) => {
   const isVisible = useOnScreen(ref);
 
   return (
-    <Fade in={isVisible} timeout={2500}>
+    <Fade in={isVisible} timeout={1000}>
       <Container
         ref={ref}
         id="Skill"
@@ -51,14 +51,14 @@ const Skills = (props) => {
       >
         <Typography
           variant="h3"
-          className={classes.skillText}
-          style={{ fontWeight: 700, paddingTop: 100 }}
+          className={classes.text}
+          style={{ fontWeight: 700, paddingTop: "5%" }}
         >
           What I'am Doing
         </Typography>
         <Typography
           variant="h5"
-          className={classes.skillText}
+          className={classes.text}
           style={{ fontWeight: 500, color: "gray" }}
         >
           I love what I do. I take great pride in what I do.
@@ -75,7 +75,12 @@ const Skills = (props) => {
                       style={{ height: 170 }}
                     />
                     <CardContent className={classes.card}>
-                      <Typography gutterBottom variant="h5" component="h2">
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="h2"
+                        style={{ fontWeight: 500 }}
+                      >
                         {s.title}
                       </Typography>
                       <Typography

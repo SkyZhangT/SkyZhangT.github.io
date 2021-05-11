@@ -10,11 +10,11 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Button, Container, Tooltip, Slide } from "@material-ui/core";
 import Header from "../../components/Header";
-import bkg2 from "../../res/bkg2.jpg";
+import bkg2 from "./res/bkg2.jpg";
 import Sidebar from "./components/Sidebar";
 import AboutMe from "./components/AboutMe";
 import Skills from "./components/Skills";
-import useWindowDimensions from "../../utils/UseWindowDimensions";
+import Portfolio from "./components/Portfolio";
 
 const drawerWidth = 20;
 const minWidth = 296;
@@ -132,7 +132,7 @@ const About = (props) => {
           className={classes.container}
         >
           <Typography
-            variant="h6"
+            variant="h5"
             className={classes.introText}
             style={{ fontWeight: 300 }}
           >
@@ -141,7 +141,7 @@ const About = (props) => {
           <Typography
             variant="h4"
             className={classes.introText}
-            style={{ fontWeight: 700 }}
+            style={{ fontWeight: 600 }}
           >
             I am Tianyang Zhang
           </Typography>
@@ -158,27 +158,7 @@ const About = (props) => {
 
         <Skills />
 
-        <Container
-          id="Projects"
-          style={{ backgroundColor: "#fafafa" }}
-          className={classes.container}
-        >
-          {" "}
-          <Typography
-            variant="h3"
-            className={classes.skillText}
-            style={{ fontWeight: 700, paddingTop: 100 }}
-          >
-            My Portfolio
-          </Typography>
-          <Typography
-            variant="h5"
-            className={classes.skillText}
-            style={{ fontWeight: 500, color: "gray" }}
-          >
-            I am passionate about what I do
-          </Typography>
-        </Container>
+        <Portfolio />
       </main>
       <Tooltip title="more information" aria-label="more information">
         <Fab
