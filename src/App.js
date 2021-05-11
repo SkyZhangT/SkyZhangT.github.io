@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, HashRouter } from "react-router-dom";
 import {
   createMuiTheme,
   makeStyles,
@@ -73,7 +73,7 @@ theme.typography.h3 = {
 
 function App() {
   return (
-    <Router>
+    <HashRouter basename={process.env.PUBLIC_URL}>
       <div className="App">
         <ThemeProvider theme={theme}>
           <Switch>
@@ -83,7 +83,7 @@ function App() {
           </Switch>
         </ThemeProvider>
       </div>
-    </Router>
+    </HashRouter>
   );
 }
 
