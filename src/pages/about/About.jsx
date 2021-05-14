@@ -1,4 +1,5 @@
 import React from "react";
+import { useRef } from "react";
 import PropTypes from "prop-types";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Fab from "@material-ui/core/Fab";
@@ -73,6 +74,9 @@ const About = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const aboutMeRef = useRef();
+  const skillsRef = useRef();
+  const portfolioRef = useRef();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -95,7 +99,11 @@ const About = (props) => {
             open
           >
             <div className={classes.toolbar} />
-            <Sidebar />
+            <Sidebar
+              aboutMe={aboutMeRef}
+              skills={skillsRef}
+              portfolio={portfolioRef}
+            />
           </Drawer>
         </Hidden>
         <Hidden mdUp implementation="css">
@@ -113,7 +121,11 @@ const About = (props) => {
             }}
           >
             <Toolbar />
-            <Sidebar />
+            <Sidebar
+              aboutMe={aboutMeRef}
+              skills={skillsRef}
+              portfolio={portfolioRef}
+            />
           </Drawer>
         </Hidden>
       </nav>
@@ -154,11 +166,17 @@ const About = (props) => {
           </Typography>
         </Container>
 
-        <AboutMe />
+        <div ref={aboutMeRef}>
+          <AboutMe />
+        </div>
 
-        <Skills />
+        <div ref={skillsRef}>
+          <Skills />
+        </div>
 
-        <Portfolio />
+        <div ref={portfolioRef}>
+          <Portfolio />
+        </div>
       </main>
       <Tooltip title="more information" aria-label="more information">
         <Fab

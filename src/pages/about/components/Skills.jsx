@@ -1,5 +1,5 @@
 import React from "react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Container,
@@ -10,9 +10,10 @@ import {
   CardMedia,
   Fade,
   Typography,
+  Slide,
 } from "@material-ui/core";
 import { skills } from "../content";
-import useOnScreen from "../../../utils/OnScreenHook";
+import { useVisited } from "../../../utils/OnScreenHook";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -39,10 +40,20 @@ const Skills = (props) => {
   const classes = useStyles();
 
   const ref = useRef();
-  const isVisible = useOnScreen(ref);
+  const isVisible = useVisited(ref);
+  const [inTransition, setInTransition] = useState(true);
 
   return (
-    <Fade in={isVisible} timeout={1000}>
+    <Fade
+      in={isVisible}
+      timeout={800}
+      onEnter={() => {
+        setInTransition((inTransition) => true);
+      }}
+      onEntered={() => {
+        setInTransition((inTransition) => false);
+      }}
+    >
       <Container
         ref={ref}
         id="Skill"
@@ -66,34 +77,41 @@ const Skills = (props) => {
         <Grid container spacing={4} style={{ paddingTop: 50 }}>
           {skills.map((s, index) => {
             return (
-              <Grid item xs={12} md={6} lg={3} key={`${index}`}>
-                <Card id={`card ${index}`} className={classes.card}>
-                  <CardActionArea className={classes.card}>
-                    <CardMedia
-                      image={s.image}
-                      title="Contemplative Reptile"
-                      style={{ height: 170 }}
-                    />
-                    <CardContent className={classes.card}>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                        style={{ fontWeight: 500 }}
-                      >
-                        {s.title}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        component="p"
-                      >
-                        {s.text}
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Grid>
+              <Slide
+                in={!inTransition}
+                timeout={(index + 1) * 100 + 350}
+                direction="up"
+                key={`${index}`}
+              >
+                <Grid item xs={12} md={6} lg={3}>
+                  <Card id={`card ${index}`} className={classes.card}>
+                    <CardActionArea className={classes.card}>
+                      <CardMedia
+                        image={s.image}
+                        title="Contemplative Reptile"
+                        style={{ height: 170 }}
+                      />
+                      <CardContent className={classes.card}>
+                        <Typography
+                          gutterBottom
+                          variant="h5"
+                          component="h2"
+                          style={{ fontWeight: 500 }}
+                        >
+                          {s.title}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          component="p"
+                        >
+                          {s.text}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                </Grid>
+              </Slide>
             );
           })}
         </Grid>

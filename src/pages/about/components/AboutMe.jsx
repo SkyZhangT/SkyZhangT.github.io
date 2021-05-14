@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Button, Container, Fade, Grid, Slide } from "@material-ui/core";
 import InsertDriveFileIcon from "@material-ui/icons/InsertDriveFile";
 import port1 from "../res/port1.png";
-import useOnScreen from "../../../utils/OnScreenHook";
+import { useVisited } from "../../../utils/OnScreenHook";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -28,10 +28,10 @@ const AboutMe = (props) => {
   const classes = useStyles();
 
   const ref = useRef();
-  const isVisible = useOnScreen(ref);
+  const isVisible = useVisited(ref);
 
   return (
-    <Fade in={isVisible} timeout={1000}>
+    <Fade in={isVisible} timeout={800}>
       <Container
         ref={ref}
         id="About Me"

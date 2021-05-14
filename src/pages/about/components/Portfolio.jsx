@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 import {
   Container,
   Grid,
-  Card,
+  Button,
   CardActionArea,
   CardContent,
   CardMedia,
@@ -16,12 +17,16 @@ import {
   IconButton,
   Link,
   Chip,
+  Slide,
 } from "@material-ui/core";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import { projects } from "../content";
-import useOnScreen from "../../../utils/OnScreenHook";
+import { useVisited } from "../../../utils/OnScreenHook";
 import frame1 from "../../../res/laptop_frame.png";
+
+//[green, blue, red, yellow]
+const color = ["#76d275", "#6ab7ff", "#ff7961", "#ffe54c"];
 
 const useStylesItem = makeStyles((theme) => ({
   root: {
@@ -77,12 +82,10 @@ const useStylesItem = makeStyles((theme) => ({
 }));
 
 const Item = (props) => {
-  const { data } = props;
+  const { data, colorIndex, shapeIndex, inTransition } = props;
   const classes = useStylesItem();
-  const shapeIndex = Math.floor(Math.random() * 4);
-  const colorIndex = Math.floor(Math.random() * 3);
-  //[green, blue, red, yellow]
-  const color = ["#76d275", "#6ab7ff", "#ff7961", "#ffe54c"];
+  const ref = useRef();
+  const isVisible = useVisited(ref);
 
   const generateShape = (s, c) => {
     switch (s) {
@@ -112,11 +115,18 @@ const Item = (props) => {
   };
 
   return (
-    <Grid container spacing={4} justify="center" style={{ paddingTop: "5%" }}>
+    <Grid
+      ref={ref}
+      container
+      spacing={4}
+      justify="center"
+      style={{ paddingTop: "5%" }}
+    >
       <Grid item xs={12}>
         {data.skills.map((name, index) => {
           return (
             <Chip
+              key={`${index}`}
               label={name}
               className={classes.chip}
               color="secondary"
@@ -134,40 +144,54 @@ const Item = (props) => {
         </div>
 
         <div className={classes.textBox}>
-          <Typography
-            variant="h4"
-            className={classes.text}
-            style={{
-              fontWeight: 400,
-            }}
-          >{`${data.title}`}</Typography>
-          <Typography
-            variant="subtitle1"
-            className={classes.text}
-            style={{ color: "gray" }}
-          >{`${data.type}`}</Typography>
-          <Typography
-            variant="subtitle1"
-            className={classes.text}
-            style={{ color: "blue" }}
-          >{`${data.year}`}</Typography>
+          <Fade in={!inTransition} timeout={500}>
+            <Typography
+              variant="h4"
+              className={classes.text}
+              style={{
+                fontWeight: 400,
+              }}
+            >{`${data.title}`}</Typography>
+          </Fade>
+          <Fade in={!inTransition} timeout={600}>
+            <Typography
+              variant="subtitle1"
+              className={classes.text}
+              style={{ color: "gray" }}
+            >{`${data.type}`}</Typography>
+          </Fade>
+          <Fade in={!inTransition} timeout={700}>
+            <Typography
+              variant="subtitle1"
+              className={classes.text}
+              style={{ color: "blue" }}
+            >{`${data.year}`}</Typography>
+          </Fade>
           {generateLink(classes.text, data)}
         </div>
 
         <Hidden xsDown>
           <div className={classes.imageFrame}>
-            <img
-              src={data.image}
-              alt="project image"
-              className={classes.image}
-            />
+            <Slide in={!inTransition} timeout={500} direction="left">
+              <img
+                src={data.image}
+                alt="project image"
+                className={classes.image}
+              />
+            </Slide>
           </div>
         </Hidden>
       </Grid>
 
       <Hidden smUp>
         <Grid item xs={12}>
-          <img src={data.image} alt="project image" className={classes.image} />
+          <Slide in={!inTransition} timeout={500} direction="left">
+            <img
+              src={data.image}
+              alt="project image"
+              className={classes.image}
+            />
+          </Slide>
         </Grid>
       </Hidden>
     </Grid>
@@ -192,18 +216,54 @@ const useStyles = makeStyles((theme) => ({
   navIcon: {
     color: "#3f51b5",
   },
+  transitionGroup: { width: "100%", minHeight: 500 },
 }));
 
 const Portfolio = (props) => {
   const classes = useStyles();
-  const [currentProj, setCurrentProj] = useState(projects.length > 0 ? 0 : -1);
-  console.log(currentProj);
+  const [currentProj, setCurrentProj] = useState(
+    projects.length > 0 ? { data: projects[0], index: 0 } : null
+  );
+  const [shapeIndex, setShapeIndex] = useState(Math.floor(Math.random() * 4));
+  const [colorIndex, setColorIndex] = useState(Math.floor(Math.random() * 4));
+  const [inTransition, setInTransition] = useState(true);
+  const [parentInTransition, setParentInTransition] = useState(true);
+  const [showProj, setShowProj] = useState(true);
 
   const ref = useRef();
-  const isVisible = useOnScreen(ref);
+  const isVisible = useVisited(ref);
+
+  const nextProject = () => {
+    setShowProj(false);
+    setCurrentProj((currentProj) => ({
+      data: projects[currentProj.index + 1],
+      index: currentProj.index + 1,
+    }));
+    setShapeIndex((shapeIndex) => Math.floor(Math.random() * 4));
+    setColorIndex((colorIndex) => Math.floor(Math.random() * 4));
+  };
+
+  const prevProject = () => {
+    setShowProj(false);
+    setCurrentProj((currentProj) => ({
+      data: projects[currentProj.index - 1],
+      index: currentProj.index - 1,
+    }));
+    setShapeIndex((shapeIndex) => Math.floor(Math.random() * 4));
+    setColorIndex((colorIndex) => Math.floor(Math.random() * 4));
+  };
 
   return (
-    <Fade in={isVisible} timeout={1000}>
+    <Fade
+      in={isVisible}
+      timeout={800}
+      onEnter={() => {
+        setParentInTransition((parentInTransition) => true);
+      }}
+      onEntered={() => {
+        setParentInTransition((parentInTransition) => false);
+      }}
+    >
       <Container
         ref={ref}
         id="Projects"
@@ -215,7 +275,7 @@ const Portfolio = (props) => {
           className={classes.text}
           style={{ fontWeight: 700, paddingTop: "5%" }}
         >
-          My Portfolio
+          Portfolio
         </Typography>
         <Typography
           variant="h5"
@@ -226,41 +286,54 @@ const Portfolio = (props) => {
         </Typography>
         <div key="project_navigation" style={{ paddingTop: "5%" }}>
           <Grid container alignItems="center">
-            <Grid item xs={1}>
-              <NavigateBeforeIcon
-                className={classes.navIcon}
-                onClick={() => {
-                  setCurrentProj((currentProj) =>
-                    currentProj == 0 ? projects.length - 1 : currentProj - 1
-                  );
-                }}
-              />
+            <Grid item xs={2} md={1}>
+              <Button onClick={prevProject} disabled={currentProj.index <= 0}>
+                <NavigateBeforeIcon className={classes.navIcon} />
+              </Button>
             </Grid>
-            <Grid item xs={10}>
+            <Grid item xs={8} md={10}>
               <LinearProgress
                 variant="determinate"
-                value={(100 * currentProj) / (projects.length - 1)}
+                value={(100 * currentProj.index) / (projects.length - 1)}
               />
             </Grid>
-            <Grid item xs={1}>
-              <NavigateNextIcon
-                className={classes.navIcon}
-                onClick={() => {
-                  setCurrentProj((currentProj) =>
-                    currentProj == projects.length - 1 ? 0 : currentProj + 1
-                  );
-                }}
-              />
+            <Grid item xs={2} md={1}>
+              <Button
+                onClick={nextProject}
+                disabled={
+                  currentProj.index < 0 ||
+                  currentProj.index + 1 === projects.length
+                }
+              >
+                <NavigateNextIcon className={classes.navIcon} />
+              </Button>
             </Grid>
           </Grid>
         </div>
-        <div style={{ width: "100%", minHeight: 500 }}>
+        <Fade
+          in={showProj && !parentInTransition}
+          timeout={1000}
+          key={currentProj.data.title}
+          onEnter={() => {
+            setInTransition((inTransition) => true);
+          }}
+          onEntered={() => {
+            setInTransition((inTransition) => false);
+          }}
+          onExited={() => {
+            setInTransition((inTransition) => true);
+            setShowProj(true);
+          }}
+        >
           <Item
-            data={projects[currentProj]}
+            id={currentProj.data.index}
+            data={currentProj.data}
             className={classes.projects}
-            currentIndex={currentProj}
+            inTransition={inTransition}
+            shapeIndex={shapeIndex}
+            colorIndex={colorIndex}
           />
-        </div>
+        </Fade>
       </Container>
     </Fade>
   );

@@ -8,6 +8,7 @@ import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import InstagramIcon from "@material-ui/icons/Instagram";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import { useOnScreen } from "../../../utils/OnScreenHook";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,8 +31,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Sidebar = () => {
+const Sidebar = (props) => {
   const classes = useStyles();
+  const aboutMeOnScreen = useOnScreen(props.aboutMe);
+  const skillsOnScreen = useOnScreen(props.skills);
+  const portfolioOnScreen = useOnScreen(props.portfolio);
+
+  const aboutMeOnClick = () => props.aboutMe.current.scrollIntoView();
+  const skillsOnClick = () => props.skills.current.scrollIntoView();
+  const portfolioOnClick = () => props.portfolio.current.scrollIntoView();
 
   return (
     <div className={classes.root}>
@@ -65,14 +73,34 @@ const Sidebar = () => {
         </ListItem>
         <ListItem className={classes.listItem}>
           <List>
-            <ListItem className={classes.listItem}>
-              <Typography>About Me</Typography>
+            <ListItem
+              button
+              onClick={aboutMeOnClick}
+              className={classes.listItem}
+            >
+              <Typography style={{ color: aboutMeOnScreen ? "red" : "black" }}>
+                About Me
+              </Typography>
             </ListItem>
-            <ListItem className={classes.listItem}>
-              <Typography>Skills</Typography>
+            <ListItem
+              button
+              onClick={skillsOnClick}
+              className={classes.listItem}
+            >
+              <Typography style={{ color: skillsOnScreen ? "red" : "black" }}>
+                Skills
+              </Typography>
             </ListItem>
-            <ListItem className={classes.listItem}>
-              <Typography>Projects</Typography>
+            <ListItem
+              button
+              onClick={portfolioOnClick}
+              className={classes.listItem}
+            >
+              <Typography
+                style={{ color: portfolioOnScreen ? "red" : "black" }}
+              >
+                Portfolio
+              </Typography>
             </ListItem>
             <ListItem className={classes.listItem}>
               <Typography>Contact Me</Typography>
