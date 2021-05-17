@@ -1,9 +1,5 @@
-import { BrowserRouter, Route, Switch, HashRouter } from "react-router-dom";
-import {
-  createMuiTheme,
-  makeStyles,
-  ThemeProvider,
-} from "@material-ui/core/styles";
+import { Route, Switch, HashRouter } from "react-router-dom";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import "./App.css";
 import Gallery from "./pages/gallery/Gallery";
 import About from "./pages/about/About";

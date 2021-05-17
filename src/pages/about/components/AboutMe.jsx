@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Button, Container, Fade, Grid, Slide } from "@material-ui/core";
 import InsertDriveFileIcon from "@material-ui/icons/InsertDriveFile";
 import port1 from "../res/port1.png";
+import { root_url } from "../../../config/config";
 import { useVisited } from "../../../utils/OnScreenHook";
 
 const useStyles = makeStyles((theme) => ({
@@ -22,6 +23,10 @@ const useStyles = makeStyles((theme) => ({
     color: "primary",
     textAlign: "left",
   },
+  button: {
+    margin: 30,
+    backgroundColor: "#0a1c38",
+  },
 }));
 
 const AboutMe = (props) => {
@@ -29,6 +34,10 @@ const AboutMe = (props) => {
 
   const ref = useRef();
   const isVisible = useVisited(ref);
+
+  const downloadResumeClick = (e) => {
+    window.open(`${root_url}/images/resume/resume.pdf`, "_blank");
+  };
 
   return (
     <Fade in={isVisible} timeout={800}>
@@ -78,10 +87,8 @@ const AboutMe = (props) => {
             </Typography>
             <Button
               variant="outlined"
-              style={{
-                margin: 30,
-                backgroundColor: "#0a1c38",
-              }}
+              onClick={downloadResumeClick}
+              className={classes.button}
             >
               <InsertDriveFileIcon style={{ color: "white", margin: 7 }} />
               <Typography

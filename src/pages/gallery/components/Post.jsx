@@ -25,6 +25,7 @@ import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import { root_url } from "../../../config/config";
 import makeRequest from "../../../utils/network";
 import DeleteIcon from "@material-ui/icons/Delete";
+import FlagIcon from "@material-ui/icons/Flag";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -222,6 +223,12 @@ const Post = (props) => {
                 open={Boolean(anchorEl)}
                 onClose={handleMenuClose}
               >
+                <Tooltip title="delete this post" aria-label="delete">
+                  <MenuItem>
+                    <FlagIcon style={{ color: "gray" }} />
+                    <Typography>Flag as inappropriate</Typography>
+                  </MenuItem>
+                </Tooltip>
                 <Tooltip title="delete this post" aria-label="delete">
                   <MenuItem onClick={handleDeleteClick}>
                     <DeleteIcon style={{ color: "gray" }} />
