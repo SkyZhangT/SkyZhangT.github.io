@@ -152,7 +152,6 @@ const Gallery = (props) => {
   const handleOpenDialog = async (index) => {
     setOpenDialog(true);
     await setDelIndex(index);
-    console.log(index);
   };
 
   const handleCloseDialog = () => {
@@ -221,7 +220,9 @@ const Gallery = (props) => {
           <SimpleDialog
             open={openDialog}
             onClose={handleCloseDialog}
-            Notification={`Do you really want to delete this post?`}
+            Notification={`Do you really want to delete '${
+              posts.length <= 0 ? "null" : posts[delIndex].title
+            }'?`}
             content={
               <div key="content">
                 <TextField

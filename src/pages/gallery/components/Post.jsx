@@ -196,6 +196,11 @@ const Post = (props) => {
 
   const handleDeleteClick = (e) => {
     handleOpenDialog(index);
+    setAnchorEl(null);
+  };
+
+  const handleFlagClick = (e) => {
+    setAnchorEl(null);
   };
 
   return (
@@ -224,7 +229,7 @@ const Post = (props) => {
                 onClose={handleMenuClose}
               >
                 <Tooltip title="delete this post" aria-label="delete">
-                  <MenuItem>
+                  <MenuItem onClick={handleFlagClick}>
                     <FlagIcon style={{ color: "gray" }} />
                     <Typography>Flag as inappropriate</Typography>
                   </MenuItem>
