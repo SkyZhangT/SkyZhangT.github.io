@@ -26,7 +26,7 @@ import { useVisited } from "../../../utils/OnScreenHook";
 import frame1 from "../../../res/laptop_frame.png";
 
 //[green, blue, red, yellow]
-const color = ["#76d275", "#6ab7ff", "#ff7961", "#ffe54c"];
+const color = ["#76d275", "#6ab7ff", "#ff7961", "#ffd633"];
 
 const useStylesItem = makeStyles((theme) => ({
   root: {

@@ -14,26 +14,22 @@ import search from "./res/smantic_search.png";
 export const skills = [
   {
     title: "Mobile Application",
-    text:
-      "Steve Jobs changed world with the first iPhone. Mobile developers changed the iPhone. I value the efficiency and the simplicity of modern mobile applications, and I enjoy the process of developing one.",
+    text: "Steve Jobs changed world with the first iPhone. Mobile developers changed the iPhone. I value the efficiency and the simplicity of modern mobile applications, and I enjoy the process of developing one.",
     image: mobile,
   },
   {
     title: "Web Design",
-    text:
-      "Websites are the first destination of internet users. Although mobile applications are growing faster, one should never underestimate the influence of a thoroughly designed website. HTML 5 provides more possibilities than ever.",
+    text: "Websites are the first destination of internet users. Although mobile applications are growing faster, one should never underestimate the influence of a thoroughly designed website. HTML 5 provides more possibilities than ever.",
     image: web,
   },
   {
     title: "API Development",
-    text:
-      "A successful software always have a fast and robust backend. In backend development, I value safer, faster, and more scalable solutions. I also frequently expose myself with cutting edge solutions like new languages and databases.",
+    text: "A successful software always have a fast and robust backend. In backend development, I value safer, faster, and more scalable solutions. I also frequently expose myself with cutting edge solutions like new languages and databases.",
     image: api,
   },
   {
     title: "Machine Learning",
-    text:
-      "Artifical intellegence is the future, and machine learning might be the closest approach. I love challenging myself with new concepts. Doing research at UCSD, I am exploring more possibilities with Natural Language Processing.",
+    text: "Artifical intellegence is the future, and machine learning might be the closest approach. I love challenging myself with new concepts. Doing research at UCSD, I am exploring more possibilities with Natural Language Processing.",
     image: machine,
   },
 ];
@@ -63,7 +59,7 @@ export const projects = [
     type: "DATABASE & API SERVICE",
     text: "",
     image: backend,
-    skills: ["GoLang", "MongoDB", "Blob Storage", "REST API", "HTTP"],
+    skills: ["GoLang", "MongoDB", "Docker", "Blob Storage", "REST API", "HTTP"],
     link: "https://github.com/SkyZhangT/github.io-backend",
   },
   {
@@ -81,7 +77,13 @@ export const projects = [
     type: "ANDROID APPLICATION",
     text: "",
     image: search,
-    skills: ["Java", "SQLite", "Elastic Search", "HMT-1", "Design Patterns"],
+    skills: [
+      "Java",
+      "SQLite",
+      "Elastic Search",
+      "Wearable Device HMT-1",
+      "Design Patterns",
+    ],
     link: "",
   },
   {

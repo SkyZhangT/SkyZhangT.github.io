@@ -4,6 +4,7 @@ import "./App.css";
 import Gallery from "./pages/gallery/Gallery";
 import About from "./pages/about/About";
 import NewPost from "./pages/gallery/NewPost";
+import ScrollToTop from "./utils/ScrollToTop";
 
 const theme = createMuiTheme({
   typography: {
@@ -70,6 +71,7 @@ theme.typography.h3 = {
 function App() {
   return (
     <HashRouter basename={process.env.PUBLIC_URL}>
+      <ScrollToTop />
       <div className="App">
         <ThemeProvider theme={theme}>
           <Switch>
