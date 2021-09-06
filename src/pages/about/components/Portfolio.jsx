@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
 import {
   Container,
   Grid,

@@ -9,7 +9,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { Button, Container, Tooltip, Slide } from "@material-ui/core";
+import { Container, Tooltip } from "@material-ui/core";
 import Header from "../../components/Header";
 import bkg2 from "./res/bkg2.jpg";
 import Sidebar from "./components/Sidebar";
